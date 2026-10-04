@@ -75,25 +75,31 @@ class DataTests(unittest.TestCase):
     def test_fixed_dataset_and_paired_test_reuse(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            prepare(root, train_size=2000, eval_per_group=11, chunk_size=700)
+            prepare(root, train_size=2000, chunk_size=700)
             x, y = np.load(root / "train_x.npy"), np.load(root / "train_y.npy")
             self.assertEqual(x.shape, (2000, 31))
             validate(x, y, "train")
             ox, oy = np.load(root / "eval_x.npy"), np.load(root / "eval_y.npy")
-            validate(ox[:11], oy[:11], "test", True)
-            validate(ox[11:], oy[11:], "test", False)
-            np.testing.assert_array_equal(oy[:11], oy[11:])
-            np.testing.assert_array_equal(ox[:11, -1], ox[11:, -1])
-            for a, b in zip(ox[:11], ox[11:]):
+            group_size = 10_000
+            self.assertEqual(ox.shape, (2 * group_size, 31))
+            self.assertEqual(oy.shape, (2 * group_size,))
+            validate(ox[:group_size], oy[:group_size], "test", True)
+            validate(ox[group_size:], oy[group_size:], "test", False)
+            np.testing.assert_array_equal(oy[:group_size], oy[group_size:])
+            np.testing.assert_array_equal(ox[:group_size, -1], ox[group_size:, -1])
+            for a, b in zip(ox[:group_size], ox[group_size:]):
                 self.assertEqual(set(map(tuple, a[:-1].reshape(-1, 2))),
                                  set(map(tuple, b[:-1].reshape(-1, 2))))
             meta = json.loads((root / "dataset.json").read_text())
+            self.assertEqual(meta["eval_per_group"], group_size)
             self.assertEqual((meta["sequence_length"], meta["steps"], meta["vocab_size"]), (31, 4, 101))
             mtime = (root / "train_x.npy").stat().st_mtime_ns
-            prepare(root, train_size=2000, eval_per_group=11, chunk_size=700)
+            prepare(root, train_size=2000, chunk_size=700)
             self.assertEqual(mtime, (root / "train_x.npy").stat().st_mtime_ns)
             with self.assertRaises(RuntimeError):
-                prepare(root, train_size=2001, eval_per_group=11, chunk_size=700)
+                prepare(root, train_size=2001, chunk_size=700)
+            with self.assertRaises(RuntimeError):
+                prepare(root, train_size=2000, eval_per_group=1000, chunk_size=700)
 
 
 class ConfigurationTests(unittest.TestCase):
@@ -160,6 +166,7 @@ class ConfigurationTests(unittest.TestCase):
             self.assertEqual(len(commands), 3)
             data = commands[1]
             self.assertEqual(data[data.index("--train-size") + 1], "32000000")
+            self.assertEqual(data[data.index("--eval-per-group") + 1], "10000")
             launch = commands[2]
             self.assertIn("--nproc_per_node=8", launch)
             for flag, value in (("--layers", "3"), ("--width", "1024"), ("--ffn-width", "2048"),
@@ -186,13 +193,21 @@ class EvaluationTests(unittest.TestCase):
         class PredictLastToken(torch.nn.Module):
             def forward(self, x):
                 return torch.nn.functional.one_hot(x[:, -1], 101).float()
-        x = torch.arange(20, 31, dtype=torch.uint8).reshape(-1, 1).repeat(1, 31)
-        y = x[:, -1].clone()
-        totals = np.zeros(2, dtype=np.int64)
-        with patch("train.dist.all_reduce"):
-            for rank in range(8):
-                totals += evaluate(PredictLastToken(), x, y, torch.arange(rank, len(x), 8), 1, torch.device("cpu"))
-        self.assertEqual(totals.tolist(), [11, 11])
+        for group_size in (11, 10_000):
+            x = (torch.arange(2 * group_size) % 81 + 20).to(torch.uint8).reshape(-1, 1).repeat(1, 31)
+            y = x[:, -1].clone()
+            # Distinct known accuracies ensure the two groups stay separate.
+            y[:group_size:2] = 0
+            y[group_size::4] = 0
+            for offset, wrong in ((0, (group_size + 1) // 2),
+                                  (group_size, (group_size + 3) // 4)):
+                with self.subTest(group_size=group_size, offset=offset):
+                    totals = np.zeros(2, dtype=np.int64)
+                    with patch("train.dist.all_reduce"):
+                        for rank in range(8):
+                            ids = torch.arange(rank, group_size, 8) + offset
+                            totals += evaluate(PredictLastToken(), x, y, ids, 250, torch.device("cpu"))
+                    self.assertEqual(totals.tolist(), [group_size - wrong, group_size])
 
     def test_curve_records_train_and_paired_test_without_fake_missing_values(self):
         import time

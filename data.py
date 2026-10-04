@@ -143,7 +143,7 @@ def save_json(path: Path, value: dict) -> None:
     os.replace(tmp, path)
 
 
-def prepare(root: Path, train_size: int = 32_000_000, eval_per_group: int = 1000,
+def prepare(root: Path, train_size: int = 32_000_000, eval_per_group: int = 10_000,
             seed: int = 2027, chunk_size: int = 50_000) -> None:
     if min(train_size, eval_per_group, chunk_size) < 1:
         raise ValueError("Data sizes must be positive")
@@ -217,7 +217,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--train-size", type=int, default=32_000_000)
-    parser.add_argument("--eval-per-group", type=int, default=1000)
+    parser.add_argument("--eval-per-group", type=int, default=10_000)
     parser.add_argument("--seed", type=int, default=2027)
     parser.add_argument("--chunk-size", type=int, default=50_000)
     args = parser.parse_args()
