@@ -1,4 +1,4 @@
-"""Single-head decoder, preserving the reference experiment's implementation."""
+"""Three-layer, single-head decoder used for the four-step experiment."""
 
 from __future__ import annotations
 
@@ -41,8 +41,8 @@ class Block(nn.Module):
 
 
 class ReasoningTransformer(nn.Module):
-    def __init__(self, width: int = 2048, ffn_width: int = 4096,
-                 layers: int = 4, vocab: int = 200, length: int = 53,
+    def __init__(self, width: int = 1024, ffn_width: int = 2048,
+                 layers: int = 3, vocab: int = 101, length: int = 31,
                  initialization: str = "kaiming_uniform_relu_gamma1", normalization: str = "prenorm"):
         super().__init__()
         if initialization not in ("uniform_gamma1", "kaiming_uniform_relu", "kaiming_uniform_relu_gamma1"):
@@ -84,8 +84,7 @@ class ReasoningTransformer(nn.Module):
 
     def forward(self, tokens: torch.Tensor) -> torch.Tensor:
         positions = torch.arange(tokens.size(1), device=tokens.device)
-        # Public/data token IDs are 1..200; embeddings use indices 0..199.
-        x = self.token(tokens - 1) + self.position(positions)
+        x = self.token(tokens) + self.position(positions)
         for block in self.blocks:
             x = block(x)
         return self.head(self.final_norm(x[:, -1]))

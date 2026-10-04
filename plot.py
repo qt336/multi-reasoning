@@ -1,4 +1,4 @@
-"""Plot fixed-sample training and held-out test accuracy, including 13-step order."""
+"""Plot four-step fixed training sample and paired held-out test accuracy."""
 
 from __future__ import annotations
 
@@ -30,19 +30,17 @@ def render(csv_path: Path, png_path: Path, steps: int | None = None):
         config_path = csv_path.parent / "config.json"
         if config_path.exists():
             steps = json.loads(config_path.read_text())["data"]["steps"]
-    has_order = any(r.get("train_canonical_accuracy") not in (None, "") for r in rows)
+    has_order = any(r.get("test_canonical_accuracy") not in (None, "") for r in rows)
     fig, axes = plt.subplots(1, 2 if has_order else 1,
                             figsize=(13, 5) if has_order else (8, 5), squeeze=False)
     ax = axes[0, 0]
     draw(ax, rows, "train_accuracy", "Train (fixed sample)", "#1565C0")
-    draw(ax, rows, "test_accuracy", "Test (random order)", "#D84315")
+    draw(ax, rows, "test_accuracy", "Test (balanced order groups)", "#D84315")
     if has_order:
-        draw(ax, rows, "train_canonical_accuracy", "Train canonical (fixed sample)", "#2E7D32")
         order_ax = axes[0, 1]
-        draw(order_ax, rows, "train_canonical_accuracy", "Train canonical (fixed sample)", "#2E7D32")
         draw(order_ax, rows, "test_canonical_accuracy", "Test canonical (paired)", "#6A1B9A")
         draw(order_ax, rows, "test_noncanonical_accuracy", "Test noncanonical (paired)", "#C62828")
-        order_ax.set_title("13-step canonical order diagnostic")
+        order_ax.set_title("4-step order: F3 after F2 and F4")
     ax.set_title(f"{steps}-step reasoning" if steps else "Reasoning accuracy")
     for ax in axes.flat:
         ax.set(xlabel="Epoch", ylabel="Accuracy (%)", ylim=(0, 100))

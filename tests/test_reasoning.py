@@ -1,28 +1,29 @@
-"""Semantic tests: independently check paths, the order theorem, and defaults."""
+"""Non-training checks for data semantics, reference settings and launch flow."""
 
+import csv
 import itertools
 import json
-import math
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import torch
 
-from canonical import EDGES_13, conditional_permutations, from_positions, is_canonical, path_positions
-from data import LOW, HIGH, N_FACTS, encode, make_facts, prepare, target_table, validate
+from benchmark import choose_best
+from canonical import from_positions, path_positions
+from data import LOW, HIGH, N_FACTS, N_CHAIN, SEQ_LEN, encode, is_canonical, make_facts, prepare, sample_permutations, target_table, validate
 from hardware import select_batch
 from model import ReasoningTransformer
-from train import batch, learning_rate, parser, resident_shard, training_sample_ids
+from train import batch, evaluate, learning_rate, parser, record, resident_shard, training_sample_ids
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
-def propagate(perm, query, layers):
-    """Literal token-level simulator: pair in block 0, then parallel set union.
-
-    This does not use canonical predicates, the ternary decomposition, or a
-    fact-level shortcut. All source and destination token positions are present.
-    """
+def propagate(perm, query, layers=3):
+    """Independent literal token-level pairing and synchronous causal set union."""
     tokens = [v for fact in perm for v in (int(fact), int(fact) + 1)] + [int(query)]
     state = [1 << value for value in tokens]
     for layer in range(layers):
@@ -39,143 +40,173 @@ def propagate(perm, query, layers):
     return state[-1]
 
 
-class CanonicalTests(unittest.TestCase):
-    def test_four_step_matches_reference_for_all_24_orders(self):
-        for order in itertools.permutations(range(4)):
-            expected = bool(propagate(order, 0, 3) & (1 << 4))
-            actual = bool(is_canonical(np.array([order]), np.array([0]), 4)[0])
-            self.assertEqual(actual, expected, order)
-
-    def test_thirteen_step_matches_independent_propagation(self):
-        rng = np.random.default_rng(811)
-        starts = rng.integers(0, 14, 180)
-        positive = conditional_permutations(rng, starts, N_FACTS, True)
-        negative = conditional_permutations(rng, starts, N_FACTS, False)
-        for desired, permutations in ((True, positive), (False, negative)):
-            for order, start in zip(permutations, starts):
-                self.assertEqual(bool(propagate(order, start, 4) & (1 << (int(start) + 13))), desired)
-        random_orders = np.argsort(rng.random((1500, N_FACTS)), axis=1)
-        starts = rng.integers(0, 14, len(random_orders))
-        actual = is_canonical(random_orders, starts)
-        expected = [bool(propagate(order, start, 4) & (1 << (int(start) + 13)))
-                    for order, start in zip(random_orders, starts)]
-        np.testing.assert_array_equal(actual, expected)
-
-    def test_exact_order_frequency_is_one_in_243(self):
-        # Count linear extensions independently using a subset dynamic program.
-        prerequisites = [0] * 13
-        for earlier, later in EDGES_13:
-            prerequisites[later - 1] |= 1 << (earlier - 1)
-        counts = [0] * (1 << 13)
-        counts[0] = 1
-        for mask in range(1 << 13):
-            for fact in range(13):
-                bit = 1 << fact
-                if not mask & bit and mask & prerequisites[fact] == prerequisites[fact]:
-                    counts[mask | bit] += counts[mask]
-        self.assertEqual(counts[-1] * 243, math.factorial(13))
-
-
 class DataTests(unittest.TestCase):
-    def test_every_task_has_valid_chain_and_disjoint_fact_split(self):
-        rng = np.random.default_rng(5)
-        for steps in range(7, 14):
-            for split in ("train", "test"):
-                facts, nodes, start = make_facts(rng, 24, split, steps)
-                order = np.argsort(rng.random((24, N_FACTS)), axis=1)
-                x, y = encode(facts, nodes, start, order, steps)
-                validate(x, y, split, steps)
-                self.assertEqual(x.shape, (24, 53))
-        tr, nt = target_table("train")
-        te, ne = target_table("test")
-        for i in range(HIGH - LOW + 1):
-            self.assertFalse(set(tr[i, :nt[i]]) & set(te[i, :ne[i]]))
-        self.assertEqual((LOW, HIGH), (1, 200))
+    def test_canonical_matches_all_24_path_orders(self):
+        count = 0
+        for order in itertools.permutations(range(4)):
+            actual = bool(is_canonical(np.array([order]), np.array([0]))[0])
+            self.assertEqual(actual, bool(propagate(order, 0) & (1 << 4)))
+            count += actual
+        self.assertEqual(count, 8)  # Probability exactly 1/3.
 
-    def test_canonical_sample_is_from_training_and_paired_test_matches(self):
+    def test_fifteen_fact_chain_and_order_with_context(self):
+        self.assertEqual((N_FACTS, N_CHAIN, SEQ_LEN, LOW, HIGH), (15, 4, 31, 20, 100))
+        rng = np.random.default_rng(802)
+        for split in ("train", "test"):
+            facts, nodes, start = make_facts(rng, 200, split)
+            for desired in (None, True, False):
+                order = sample_permutations(rng, len(start), start, desired)
+                x, y = encode(facts, nodes, start, order)
+                validate(x, y, split, desired)
+                positions, recovered = path_positions(x)
+                np.testing.assert_array_equal(recovered, y)
+                np.testing.assert_array_equal(from_positions(positions), is_canonical(order, start))
+                expected = [bool(propagate(p, q) & (1 << (int(q) + 4))) for p, q in zip(order, start)]
+                np.testing.assert_array_equal(is_canonical(order, start), expected)
+
+    def test_train_test_fact_pairs_are_disjoint(self):
+        train, nt = target_table("train")
+        test, ne = target_table("test")
+        for i in range(HIGH - LOW + 1):
+            self.assertFalse(set(train[i, :nt[i]]) & set(test[i, :ne[i]]))
+        with self.assertRaises(ValueError):
+            target_table("unknown")
+
+    def test_fixed_dataset_and_paired_test_reuse(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            prepare(root, steps=13, train_size=8000, eval_per_group=7,
-                    chunk_size=1000, canonical_train_size=7)
-            ids = np.load(root / "canonical_train_ids.npy")
-            self.assertEqual(len(ids), 7)
-            self.assertTrue((np.diff(ids) > 0).all())
+            prepare(root, train_size=2000, eval_per_group=11, chunk_size=700)
             x, y = np.load(root / "train_x.npy"), np.load(root / "train_y.npy")
-            validate(x[ids], y[ids], "train", 13, True)
-            meta = json.loads((root / "dataset.json").read_text())
-            positions, answers = path_positions(x, 13)
-            np.testing.assert_array_equal(answers, y)
-            self.assertEqual(meta["canonical_train_count"], int(from_positions(positions).sum()))
-            ox = np.load(root / "order_x.npy")
-            oy = np.load(root / "order_y.npy")
-            np.testing.assert_array_equal(oy[:7], oy[7:])
-            np.testing.assert_array_equal(ox[:7, -1], ox[7:, -1])
-            for a, b in zip(ox[:7], ox[7:]):
+            self.assertEqual(x.shape, (2000, 31))
+            validate(x, y, "train")
+            ox, oy = np.load(root / "eval_x.npy"), np.load(root / "eval_y.npy")
+            validate(ox[:11], oy[:11], "test", True)
+            validate(ox[11:], oy[11:], "test", False)
+            np.testing.assert_array_equal(oy[:11], oy[11:])
+            np.testing.assert_array_equal(ox[:11, -1], ox[11:, -1])
+            for a, b in zip(ox[:11], ox[11:]):
                 self.assertEqual(set(map(tuple, a[:-1].reshape(-1, 2))),
                                  set(map(tuple, b[:-1].reshape(-1, 2))))
-            # Reuse must neither change the data nor silently change its config.
+            meta = json.loads((root / "dataset.json").read_text())
+            self.assertEqual((meta["sequence_length"], meta["steps"], meta["vocab_size"]), (31, 4, 101))
             mtime = (root / "train_x.npy").stat().st_mtime_ns
-            prepare(root, steps=13, train_size=8000, eval_per_group=7,
-                    chunk_size=1000, canonical_train_size=7)
+            prepare(root, train_size=2000, eval_per_group=11, chunk_size=700)
             self.assertEqual(mtime, (root / "train_x.npy").stat().st_mtime_ns)
             with self.assertRaises(RuntimeError):
-                prepare(root, steps=12, train_size=8000, eval_per_group=7,
-                        chunk_size=1000, canonical_train_size=7)
+                prepare(root, train_size=2001, eval_per_group=11, chunk_size=700)
 
 
-class TrainingTests(unittest.TestCase):
-    def test_full_model_shape_and_reference_hyperparameters(self):
+class ConfigurationTests(unittest.TestCase):
+    def test_shape_and_unchanged_reference_hyperparameters(self):
         with torch.device("meta"):
             model = ReasoningTransformer()
-        self.assertEqual(len(model.blocks), 4)
-        self.assertEqual(tuple(model.token.weight.shape), (200, 2048))
-        self.assertEqual(tuple(model.head.weight.shape), (200, 2048))
-        self.assertEqual(tuple(model.position.weight.shape), (53, 2048))
+        self.assertEqual(len(model.blocks), 3)
+        self.assertEqual(tuple(model.token.weight.shape), (101, 1024))
+        self.assertEqual(tuple(model.head.weight.shape), (101, 1024))
+        self.assertEqual(tuple(model.position.weight.shape), (31, 1024))
         for block in model.blocks:
-            self.assertEqual(tuple(block.ffn[0].weight.shape), (4096, 2048))
+            self.assertEqual(tuple(block.ffn[0].weight.shape), (2048, 1024))
             self.assertFalse(block.norm_attention.elementwise_affine)
             self.assertFalse(block.norm_ffn.elementwise_affine)
         args = parser().parse_args(["--data-dir", "data", "--run-dir", "runs"])
-        self.assertEqual((args.global_batch, args.lr, args.warmup_epochs, args.epochs,
-                          args.eval_every, args.eval_batch, args.seed, args.train_eval_size,
-                          args.train_eval_seed, args.expected_gpus),
-                         (16000, 1e-4, 20, 2000, 5, 250, 2029, 10000, 2027, 8))
+        reference = json.loads((ROOT / "reference_config.json").read_text())
+        same = {"width": "width", "layers": "layers", "lr": "learning_rate",
+                "warmup_epochs": "warmup_epochs", "epochs": "epochs", "eval_every": "eval_every",
+                "seed": "seed", "normalization": "normalization", "initialization": "initialization",
+                "train_eval_size": "train_accuracy_sample_size", "train_eval_seed": "train_accuracy_sample_seed"}
+        for argument, original in same.items():
+            self.assertEqual(getattr(args, argument), reference[original], argument)
+        self.assertEqual((args.ffn_width, args.global_batch, args.expected_gpus, args.eval_batch), (2048, 64000, 8, 250))
 
-    def test_training_sample_and_schedule(self):
-        ids = training_sample_ids(200_000_000, 10000, 8, 2027)
+    def test_fixed_sample_and_epoch_based_schedule(self):
+        ids = training_sample_ids(32_000_000, 10000, 8, 2027)
         self.assertEqual(len(np.unique(ids)), 10000)
-        self.assertEqual(np.bincount(ids // 25_000_000).tolist(), [1250] * 8)
-        np.testing.assert_array_equal(ids, training_sample_ids(200_000_000, 10000, 8, 2027))
-        for global_batch in (16000, 32000):
-            steps = 200_000_000 // global_batch
+        self.assertEqual(np.bincount(ids // 4_000_000).tolist(), [1250] * 8)
+        np.testing.assert_array_equal(ids, training_sample_ids(32_000_000, 10000, 8, 2027))
+        for size in (16000, 32000, 64000, 128000):
+            steps = 32_000_000 // size
+            self.assertEqual(32_000_000 % size, 0)
             self.assertAlmostEqual(learning_rate(0, steps * 2000, steps * 20, 1e-4), 1e-4 / (steps * 20))
             self.assertEqual(learning_rate(steps * 20 - 1, steps * 2000, steps * 20, 1e-4), 1e-4)
             self.assertEqual(learning_rate(steps * 2000, steps * 2000, steps * 20, 1e-4), 0)
 
-    def test_eight_a100_batch_selection_without_accessing_gpus(self):
-        self.assertEqual(select_batch([39.5] * 8), 16000)
-        self.assertEqual(select_batch([79.1] * 8), 32000)
-        self.assertEqual(select_batch([79.1] * 7 + [39.5]), 16000)
-        self.assertEqual(select_batch([79.1] * 8, 8000), 8000)
-        for capacities, override in (([39.5] * 7, None), ([16] * 8, None), ([79.1] * 8, 8192)):
+    def test_a100_80gb_and_batch_validation_without_gpu_access(self):
+        self.assertEqual(select_batch([79.1] * 8), 64000)
+        self.assertEqual(select_batch([79.1] * 8, 32000), 32000)
+        for capacities, size in (([79.1] * 7, None), ([39.5] * 8, None), ([79.1] * 8, 6144)):
             with self.assertRaises(ValueError):
-                select_batch(capacities, override)
+                select_batch(capacities, size)
+        winner = choose_best([dict(status="out_of_memory", global_batch=128000),
+                              dict(status="ok", global_batch=64000, examples_per_second=1000),
+                              dict(status="ok", global_batch=32000, examples_per_second=1100)])
+        self.assertEqual(winner["global_batch"], 32000)
 
-    def test_token_boundaries_and_resident_shard_without_training(self):
-        x = np.tile(np.array([1, 200, 1, 200, 1], dtype=np.uint8), (4, 1))
-        y = np.array([1, 200, 200, 1], dtype=np.uint8)
+    def test_launcher_only_prepares_the_requested_four_step_task(self):
+        # A fake Python executable records arguments. It cannot import torch or
+        # train; this catches wrong task size/width/GPU flags in the shell launcher.
+        import os
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            stub = tmp / "python"
+            calls = tmp / "calls.jsonl"
+            stub.write_text("#!/usr/bin/env python3\nimport json, os, sys\n"
+                            "with open(os.environ['TEST_CALLS'], 'a') as f: f.write(json.dumps(sys.argv[1:]) + '\\n')\n")
+            stub.chmod(0o755)
+            environment = {**os.environ, "PYTHON": str(stub), "TEST_CALLS": str(calls),
+                           "DATA_ROOT": str(tmp / "data"), "RUN_ROOT": str(tmp / "runs"),
+                           "GLOBAL_BATCH": "64000", "COMPILE_MODEL": "1"}
+            subprocess.run(["bash", str(ROOT / "run.sh")], env=environment, check=True)
+            commands = [json.loads(line) for line in calls.read_text().splitlines()]
+            self.assertEqual(len(commands), 3)
+            data = commands[1]
+            self.assertEqual(data[data.index("--train-size") + 1], "32000000")
+            launch = commands[2]
+            self.assertIn("--nproc_per_node=8", launch)
+            for flag, value in (("--layers", "3"), ("--width", "1024"), ("--ffn-width", "2048"),
+                                ("--global-batch", "64000"), ("--lr", "1e-4")):
+                self.assertEqual(launch[launch.index(flag) + 1], value)
+            self.assertIn("--compile-model", launch)
+
+
+class EvaluationTests(unittest.TestCase):
+    def test_resident_batch_preserves_original_token_and_target_ids(self):
+        x = np.tile(np.array([20, 100, 20, 100, 20], dtype=np.uint8), (4, 1))
+        y = np.array([20, 100, 100, 20], dtype=np.uint8)
         tx, ty = resident_shard(x, y, 1, 3, torch.device("cpu"))
         a = batch(x, y, np.array([2, 1]), torch.device("cpu"))
         b = batch(tx, ty, torch.tensor([1, 0]), torch.device("cpu"))
         for left, right in zip(a, b):
             self.assertTrue(torch.equal(left, right))
-        self.assertEqual(batch(x, y, np.array([0, 1]), torch.device("cpu"))[1].tolist(), [0, 199])
-        # Inference only: IDs 1 and 200 must both be accepted, and logits must
-        # have exactly 200 classes (no spare class for token 0).
-        model = ReasoningTransformer(width=8, ffn_width=16, layers=1, length=5)
-        model.eval()
+        self.assertEqual(batch(x, y, np.array([0, 1]), torch.device("cpu"))[1].tolist(), [20, 100])
+        model = ReasoningTransformer(width=8, ffn_width=16, layers=1, length=5).eval()
         with torch.inference_mode():
-            self.assertEqual(tuple(model(a[0]).shape), (2, 200))
+            self.assertEqual(tuple(model(a[0]).shape), (2, 101))
+
+    def test_uneven_distributed_evaluation_counts_without_training(self):
+        class PredictLastToken(torch.nn.Module):
+            def forward(self, x):
+                return torch.nn.functional.one_hot(x[:, -1], 101).float()
+        x = torch.arange(20, 31, dtype=torch.uint8).reshape(-1, 1).repeat(1, 31)
+        y = x[:, -1].clone()
+        totals = np.zeros(2, dtype=np.int64)
+        with patch("train.dist.all_reduce"):
+            for rank in range(8):
+                totals += evaluate(PredictLastToken(), x, y, torch.arange(rank, len(x), 8), 1, torch.device("cpu"))
+        self.assertEqual(totals.tolist(), [11, 11])
+
+    def test_curve_records_train_and_paired_test_without_fake_missing_values(self):
+        import time
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            scores = dict(train=(6, 10), test=(11, 20), test_canonical=(9, 10), test_noncanonical=(2, 10))
+            record(root, 0, scores, None, 0, time.time(), 4)
+            record(root, 1, dict(train=(7, 10)), 1.2, 1e-4, time.time(), 4)
+            with (root / "accuracy.csv").open() as f:
+                rows = list(csv.DictReader(f))
+            self.assertEqual(rows[0]["test_accuracy"], "0.55")
+            self.assertEqual(rows[1]["test_accuracy"], "")
+            self.assertEqual(rows[1]["train_accuracy"], "0.7")
+            self.assertGreater((root / "accuracy.png").stat().st_size, 1000)
 
 
 if __name__ == "__main__":

@@ -5,5 +5,5 @@ project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd -- "$project_dir"
 python_bin="${PYTHON:-python3}"
 "$python_bin" -m unittest discover -s tests -v
-"$python_bin" -m compileall -q model.py data.py canonical.py train.py plot.py hardware.py tests
+"$python_bin" -m compileall -q model.py data.py canonical.py train.py plot.py hardware.py benchmark.py tests
 bash -n run.sh validate.sh

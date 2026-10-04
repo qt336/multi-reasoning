@@ -18,13 +18,12 @@ from torch import distributed as dist
 from torch.nn import functional as F
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-from canonical import from_positions, path_positions
 from data import save_array, save_json
 from model import ReasoningTransformer
 from plot import render
 
 
-METRICS = ("train", "test", "train_canonical", "test_canonical", "test_noncanonical")
+METRICS = ("train", "test", "test_canonical", "test_noncanonical")
 FIELDS = ("epoch", *(f"{name}_{stat}" for name in METRICS
                      for stat in ("correct", "n", "accuracy")),
           "train_loss", "learning_rate", "elapsed_hours")
@@ -61,12 +60,12 @@ def load_xy(root, name):
 
 
 def batch(x, y, ids, device):
-    # Inputs retain public IDs 1..200; cross entropy targets are 0..199.
+    # Preserve the reference's token/target IDs and all 101 output classes.
     if isinstance(x, torch.Tensor):
         ids = torch.as_tensor(ids, dtype=torch.long, device=x.device)
-        return x[ids].long(), y[ids].long() - 1
+        return x[ids].long(), y[ids].long()
     return (torch.from_numpy(np.array(x[ids], dtype=np.int64, copy=True)).to(device),
-            torch.from_numpy(np.array(y[ids], dtype=np.int64, copy=True)).to(device) - 1)
+            torch.from_numpy(np.array(y[ids], dtype=np.int64, copy=True)).to(device))
 
 
 def resident_shard(x, y, left, right, device):
@@ -82,6 +81,18 @@ def resident_shard(x, y, left, right, device):
 
 def autocast(device):
     return torch.autocast("cuda", dtype=torch.bfloat16) if device.type == "cuda" else nullcontext()
+
+
+def training_model(raw_model, device, local_rank, compile_model=True):
+    """Compile the inner module; retain raw_model for portable checkpoints/eval.
+
+    The no-cudagraph mode supports DDP graph partitioning in PyTorch 2.5.
+    Kernel autotuning happens only when launched on the target GPUs.
+    """
+    inner = (torch.compile(raw_model, mode="max-autotune-no-cudagraphs", dynamic=False)
+             if compile_model else raw_model)
+    return DDP(inner, device_ids=[local_rank] if device.type == "cuda" else None,
+               broadcast_buffers=False, gradient_as_bucket_view=True, static_graph=True)
 
 
 @torch.inference_mode()
@@ -135,11 +146,10 @@ def parser():
     p.add_argument("--data-dir", type=Path, required=True)
     p.add_argument("--run-dir", type=Path, required=True)
     p.add_argument("--expected-gpus", type=int, default=8)
-    p.add_argument("--global-batch", type=int, default=16000,
-                   help="run.sh selects 16000 for A100 40GB or 32000 for A100 80GB")
-    p.add_argument("--width", type=int, default=2048)
-    p.add_argument("--ffn-width", type=int, default=4096)
-    p.add_argument("--layers", type=int, default=4)
+    p.add_argument("--global-batch", type=int, default=64000)
+    p.add_argument("--width", type=int, default=1024)
+    p.add_argument("--ffn-width", type=int, default=2048)
+    p.add_argument("--layers", type=int, default=3)
     p.add_argument("--lr", type=float, default=1e-4)
     p.add_argument("--warmup-epochs", type=int, default=20)
     p.add_argument("--epochs", type=int, default=2000)
@@ -156,6 +166,7 @@ def parser():
                    help="CPU is provided for explicit small smoke tests")
     p.add_argument("--data-residency", choices=("gpu", "mmap"), default="gpu",
                    help="Keep each rank's uint8 shard on its GPU to avoid per-step disk/CPU copies")
+    p.add_argument("--compile-model", action=argparse.BooleanOptionalAction, default=True)
     return p
 
 
@@ -182,14 +193,14 @@ def main(args):
         raise ValueError("Train size must be divisible by global batch; both must be divisible by workers")
     local_count, local_batch = train_size // world, args.global_batch // world
     train_x, train_y = load_xy(args.data_dir, "train")
-    if train_x.shape != (train_size, 53) or train_y.shape != (train_size,):
-        raise ValueError("Training array shape differs from the 53-token manifest")
-    if (meta["sequence_length"] != 53 or steps not in range(7, 14) or
-            meta.get("token_min") != 1 or meta.get("token_max") != 200 or
-            meta.get("vocab_size") != 200 or meta.get("format_version") != 2):
+    if train_x.shape != (train_size, 31) or train_y.shape != (train_size,):
+        raise ValueError("Training array shape differs from the 31-token manifest")
+    if (meta["sequence_length"] != 31 or steps != 4 or meta.get("n_facts") != 15 or
+            meta.get("token_min") != 20 or meta.get("token_max") != 100 or
+            meta.get("vocab_size") != 101 or meta.get("format_version") != 3):
         raise ValueError("Unsupported task")
     model_config = dict(width=args.width, ffn_width=args.ffn_width, layers=args.layers,
-                        vocab=200, length=53, initialization=args.initialization,
+                        vocab=101, length=31, initialization=args.initialization,
                         normalization=args.normalization)
     config = dict(data=meta, model=model_config, gpus=world, global_batch=args.global_batch,
                   learning_rate=args.lr, warmup_epochs=args.warmup_epochs,
@@ -200,7 +211,9 @@ def main(args):
                   device=args.device, mixed_precision="bfloat16" if args.device == "cuda" else None,
                   data_residency=args.data_residency,
                   data_loading="fixed uint8 shard; full random permutation per epoch",
-                  ddp_gradient_as_bucket_view=True, ddp_static_graph=True)
+                  ddp_gradient_as_bucket_view=True, ddp_static_graph=True,
+                  compile_model=args.compile_model,
+                  compile_mode="max-autotune-no-cudagraphs" if args.compile_model else None)
     config_path = args.run_dir / "config.json"
     previous = json.loads(config_path.read_text()) if config_path.exists() else None
     if previous is not None and any(previous.get(k) != v for k, v in config.items()):
@@ -220,31 +233,21 @@ def main(args):
         save_json(args.run_dir / "train_accuracy_sample.json", dict(
             source=str(args.data_dir.resolve()), source_size=train_size,
             sample_size=len(sample_ids), sample_seed=args.train_eval_seed,
-            sampling="fixed without replacement, equal per training shard",
-            canonical_sample_source="canonical_train_sample_ids.npy" if steps == 13 else None))
+            sampling="fixed without replacement, equal per training shard"))
     per_rank = len(sample_ids) // world
     local_train_ids = sample_ids[rank * per_rank:(rank + 1) * per_rank]
     evaluations = {"train": (train_x, train_y, local_train_ids, local_batch)}
-    test_x, test_y = load_xy(args.data_dir, "test")
-    evaluations["test"] = (test_x, test_y, np.arange(rank, len(test_x), world), args.eval_batch)
-    if steps == 13:
-        canonical_ids = np.load(args.data_dir / "canonical_train_ids.npy")
-        if (canonical_ids.shape != (meta["canonical_train_sample_size"],) or
-                not np.issubdtype(canonical_ids.dtype, np.integer) or
-                np.any(np.diff(canonical_ids) <= 0) or canonical_ids[0] < 0 or canonical_ids[-1] >= train_size):
-            raise ValueError("Invalid canonical training IDs")
-        positions, answers = path_positions(train_x[canonical_ids], 13)
-        if not from_positions(positions).all() or not np.array_equal(answers, train_y[canonical_ids]):
-            raise ValueError("Canonical diagnostic rows must belong to the actual training set")
-        if rank == 0:
-            save_array(args.run_dir / "canonical_train_sample_ids.npy", canonical_ids)
-        evaluations["train_canonical"] = (train_x, train_y, canonical_ids[rank::world], local_batch)
-        order_x, order_y = load_xy(args.data_dir, "order")
-        group_size = meta["eval_per_group"]
-        if len(order_x) != 2 * group_size:
-            raise ValueError("Invalid paired order test size")
-        for name, offset in (("test_canonical", 0), ("test_noncanonical", group_size)):
-            evaluations[name] = (order_x, order_y, np.arange(rank, group_size, world) + offset, args.eval_batch)
+    eval_x, eval_y = load_xy(args.data_dir, "eval")
+    group_size = meta["eval_per_group"]
+    if eval_x.shape != (2 * group_size, 31) or eval_y.shape != (2 * group_size,):
+        raise ValueError("Invalid paired evaluation shape")
+    for name, offset in (("test_canonical", 0), ("test_noncanonical", group_size)):
+        evaluations[name] = (eval_x, eval_y, np.arange(rank, group_size, world) + offset, args.eval_batch)
+    # Cache these small fixed subsets once; evaluate without repeated disk reads.
+    for name, (x, y, ids, size) in list(evaluations.items()):
+        cached_x = torch.from_numpy(np.array(x[ids], copy=True)).to(device)
+        cached_y = torch.from_numpy(np.array(y[ids], copy=True)).to(device)
+        evaluations[name] = (cached_x, cached_y, torch.arange(len(ids), device=device), size)
 
     if args.data_residency == "gpu":
         if device.type != "cuda":
@@ -256,8 +259,7 @@ def main(args):
         train_batch_x, train_batch_y = train_x, train_y
         order_device = torch.device("cpu")
     raw_model = ReasoningTransformer(**model_config).to(device)
-    model = DDP(raw_model, device_ids=[local_rank] if device.type == "cuda" else None,
-                broadcast_buffers=False, gradient_as_bucket_view=True, static_graph=True)
+    model = training_model(raw_model, device, local_rank, args.compile_model)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.999),
                                  eps=1e-8, weight_decay=0.1, fused=device.type == "cuda")
     steps_per_epoch = train_size // args.global_batch
@@ -275,9 +277,13 @@ def main(args):
         raise RuntimeError("Accuracy history exists without a checkpoint; use a new run directory")
 
     def measure(include_test):
-        return {name: evaluate(raw_model, x, y, ids, size, device)
-                for name, (x, y, ids, size) in evaluations.items()
-                if include_test or name.startswith("train")}
+        scores = {name: evaluate(raw_model, x, y, ids, size, device)
+                  for name, (x, y, ids, size) in evaluations.items()
+                  if include_test or name == "train"}
+        if include_test:
+            c, n = scores["test_canonical"], scores["test_noncanonical"]
+            scores["test"] = (c[0] + n[0], c[1] + n[1])
+        return scores
 
     if rank == 0:
         print(f"TRAIN steps={steps} GPUs={world} parameters={sum(p.numel() for p in raw_model.parameters()):,} "
@@ -297,7 +303,7 @@ def main(args):
 
     for epoch in range(start_epoch + 1, args.epochs + 1):
         epoch_start = time.time()
-        # Keep all 200 million rows fixed and visit each exactly once per epoch.
+        # Visit every fixed training row exactly once per epoch.
         generator = torch.Generator(device=order_device)
         generator.manual_seed(args.seed + epoch * 10_007 + rank)
         order = torch.randperm(local_count, generator=generator, device=order_device)
@@ -330,7 +336,7 @@ def main(args):
                 epochs=args.epochs, **row, updated_at=timestamp(),
                 seconds_per_epoch=time.time() - epoch_start,
                 examples_per_second=train_size / (time.time() - epoch_start),
-                accuracy_scope="fixed training samples; random-order held-out test"))
+                accuracy_scope="fixed training sample; paired canonical/noncanonical held-out test"))
             if include_test:
                 tmp = checkpoint.with_name("latest.pt.tmp")
                 torch.save(dict(epoch=epoch, config=config, model=raw_model.state_dict(),
