@@ -15,7 +15,7 @@ import torch
 from benchmark import choose_best
 from canonical import from_positions, path_positions
 from data import LOW, HIGH, N_FACTS, N_CHAIN, SEQ_LEN, encode, is_canonical, make_facts, prepare, sample_permutations, target_table, validate
-from hardware import select_batch
+from hardware import TRAIN_SIZE, batch_layout, select_batch
 from model import ReasoningTransformer
 from train import batch, evaluate, learning_rate, parser, record, resident_shard, training_sample_ids
 
@@ -125,21 +125,47 @@ class ConfigurationTests(unittest.TestCase):
         self.assertEqual((args.ffn_width, args.global_batch, args.expected_gpus, args.eval_batch), (2048, 64000, 8, 250))
 
     def test_fixed_sample_and_epoch_based_schedule(self):
-        ids = training_sample_ids(32_000_000, 10000, 8, 2027)
+        self.assertEqual(TRAIN_SIZE, 6_500_000)
+        ids = training_sample_ids(TRAIN_SIZE, 10000, 8, 2027)
         self.assertEqual(len(np.unique(ids)), 10000)
-        self.assertEqual(np.bincount(ids // 4_000_000).tolist(), [1250] * 8)
-        np.testing.assert_array_equal(ids, training_sample_ids(32_000_000, 10000, 8, 2027))
-        for size in (16000, 32000, 64000, 128000):
-            steps = 32_000_000 // size
-            self.assertEqual(32_000_000 % size, 0)
+        self.assertEqual(np.bincount(ids // 812_500).tolist(), [1250] * 8)
+        np.testing.assert_array_equal(ids, training_sample_ids(TRAIN_SIZE, 10000, 8, 2027))
+        for size, expected_steps in ((16000, 407), (32000, 204), (64000, 102), (128000, 51)):
+            _, _, steps = batch_layout(TRAIN_SIZE, size, 8)
+            self.assertEqual(steps, expected_steps)
             self.assertAlmostEqual(learning_rate(0, steps * 2000, steps * 20, 1e-4), 1e-4 / (steps * 20))
             self.assertEqual(learning_rate(steps * 20 - 1, steps * 2000, steps * 20, 1e-4), 1e-4)
             self.assertEqual(learning_rate(steps * 2000, steps * 2000, steps * 20, 1e-4), 0)
 
+    def test_partial_batches_cover_all_training_rows_on_eight_ranks(self):
+        for size, tail in ((16000, 4000), (32000, 4000), (64000, 36000), (128000, 100000), (65000, 65000)):
+            with self.subTest(global_batch=size):
+                local_count, local_batch, steps = batch_layout(TRAIN_SIZE, size, 8)
+                visits = np.zeros(TRAIN_SIZE, dtype=np.uint8)
+                rank_sizes = []
+                for rank in range(8):
+                    counts = []
+                    for left in range(0, local_count, local_batch):
+                        right = min(left + local_batch, local_count)
+                        visits[rank * local_count + left:rank * local_count + right] += 1
+                        counts.append(right - left)
+                    self.assertEqual(len(counts), steps)
+                    self.assertEqual(sum(counts), 812_500)
+                    self.assertEqual(counts[-1] * 8, tail)
+                    rank_sizes.append(counts)
+                self.assertTrue(np.all(visits == 1))
+                self.assertTrue(all(counts == rank_sizes[0] for counts in rank_sizes))
+        self.assertEqual(batch_layout(TRAIN_SIZE, 64000, 8), (812_500, 8000, 102))
+        for args in ((0, 64000, 8), (TRAIN_SIZE, 0, 8), (TRAIN_SIZE, 64000, 0),
+                     (TRAIN_SIZE + 1, 64000, 8), (TRAIN_SIZE, 64001, 8),
+                     (TRAIN_SIZE, TRAIN_SIZE + 8, 8)):
+            with self.assertRaises(ValueError):
+                batch_layout(*args)
+
     def test_a100_80gb_and_batch_validation_without_gpu_access(self):
         self.assertEqual(select_batch([79.1] * 8), 64000)
         self.assertEqual(select_batch([79.1] * 8, 32000), 32000)
-        for capacities, size in (([79.1] * 7, None), ([39.5] * 8, None), ([79.1] * 8, 6144)):
+        for capacities, size in (([79.1] * 7, None), ([39.5] * 8, None), ([79.1] * 8, 6145)):
             with self.assertRaises(ValueError):
                 select_batch(capacities, size)
         winner = choose_best([dict(status="out_of_memory", global_batch=128000),
@@ -165,9 +191,11 @@ class ConfigurationTests(unittest.TestCase):
             commands = [json.loads(line) for line in calls.read_text().splitlines()]
             self.assertEqual(len(commands), 3)
             data = commands[1]
-            self.assertEqual(data[data.index("--train-size") + 1], "32000000")
+            self.assertEqual(data[data.index("--train-size") + 1], "6500000")
             self.assertEqual(data[data.index("--eval-per-group") + 1], "10000")
+            self.assertIn("6p5m", data[data.index("--root") + 1])
             launch = commands[2]
+            self.assertIn("6p5m", launch[launch.index("--run-dir") + 1])
             self.assertIn("--nproc_per_node=8", launch)
             for flag, value in (("--layers", "3"), ("--width", "1024"), ("--ffn-width", "2048"),
                                 ("--global-batch", "64000"), ("--lr", "1e-4")):

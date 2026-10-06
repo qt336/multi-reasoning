@@ -5,16 +5,24 @@ from __future__ import annotations
 import argparse
 import json
 
-TRAIN_SIZE = 32_000_000
+TRAIN_SIZE = 6_500_000
 DEFAULT_BATCH = 64_000
+
+
+def batch_layout(train_size: int, global_batch: int, world: int) -> tuple[int, int, int]:
+    """Equal rank shards, retaining the final partial batch on every rank."""
+    if min(train_size, global_batch, world) <= 0 or global_batch > train_size:
+        raise ValueError("Sizes must be positive and global batch must not exceed training size")
+    if train_size % world or global_batch % world:
+        raise ValueError("Training size and global batch must both be divisible by workers")
+    return train_size // world, global_batch // world, (train_size + global_batch - 1) // global_batch
 
 
 def select_batch(memory_gib: list[float], override: int | None = None) -> int:
     if len(memory_gib) != 8 or min(memory_gib) < 75:
         raise ValueError("Exactly 8 A100 80GB GPUs are required")
     size = DEFAULT_BATCH if override is None else override
-    if size <= 0 or size % 8 or TRAIN_SIZE % size:
-        raise ValueError("Global batch must be positive, divisible by 8, and divide 32000000")
+    batch_layout(TRAIN_SIZE, size, 8)
     return size
 
 
@@ -28,7 +36,7 @@ def inspect_hardware(global_batch: int | None = None) -> dict:
     return dict(gpus=[dict(name=d.name, memory_gib=m) for d, m in zip(devices, capacities)],
                 task="one four-step model on all eight GPUs", global_batch=size,
                 per_gpu_batch=size // 8, learning_rate=1e-4,
-                steps_per_epoch=TRAIN_SIZE // size,
+                steps_per_epoch=batch_layout(TRAIN_SIZE, size, 8)[2],
                 note="Default batch is an unbenchmarked starting configuration; benchmark.py can compare throughput")
 
 

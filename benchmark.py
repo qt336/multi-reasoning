@@ -55,7 +55,8 @@ def worker(args):
                                  betas=(0.9, 0.999), eps=1e-8, weight_decay=0.1, fused=True)
 
     def update(i):
-        left = (i * local_batch) % len(order)
+        # Measure full batches consistently, even when the shard has a tail.
+        left = (i % (len(order) // local_batch)) * local_batch
         tokens, targets = batch(x, y, order[left:left + local_batch], device)
         optimizer.zero_grad(set_to_none=True)
         with autocast(device):

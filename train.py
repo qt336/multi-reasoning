@@ -19,6 +19,7 @@ from torch.nn import functional as F
 from torch.nn.parallel import DistributedDataParallel as DDP
 
 from data import save_array, save_json
+from hardware import batch_layout
 from model import ReasoningTransformer
 from plot import render
 
@@ -189,9 +190,7 @@ def main(args):
     args.run_dir.mkdir(parents=True, exist_ok=True)
     meta = json.loads((args.data_dir / "dataset.json").read_text())
     train_size, steps = meta["train_size"], meta["steps"]
-    if train_size % args.global_batch or train_size % world or args.global_batch % world:
-        raise ValueError("Train size must be divisible by global batch; both must be divisible by workers")
-    local_count, local_batch = train_size // world, args.global_batch // world
+    local_count, local_batch, steps_per_epoch = batch_layout(train_size, args.global_batch, world)
     train_x, train_y = load_xy(args.data_dir, "train")
     if train_x.shape != (train_size, 31) or train_y.shape != (train_size,):
         raise ValueError("Training array shape differs from the 31-token manifest")
@@ -262,7 +261,6 @@ def main(args):
     model = training_model(raw_model, device, local_rank, args.compile_model)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.999),
                                  eps=1e-8, weight_decay=0.1, fused=device.type == "cuda")
-    steps_per_epoch = train_size // args.global_batch
     total_steps, warmup_steps = steps_per_epoch * args.epochs, steps_per_epoch * args.warmup_epochs
     checkpoint = args.run_dir / "latest.pt"
     start_epoch = 0
@@ -323,10 +321,11 @@ def main(args):
                 loss = F.cross_entropy(logits.float(), targets)
             loss.backward()
             optimizer.step()
-            loss_sum += loss.detach()
+            # Weight the final smaller batch by its actual number of examples.
+            loss_sum += loss.detach() * len(targets)
         del order
         dist.all_reduce(loss_sum, op=dist.ReduceOp.SUM)
-        mean_loss = float(loss_sum) / (steps_per_epoch * world)
+        mean_loss = float(loss_sum) / train_size
         include_test = epoch % args.eval_every == 0 or epoch == args.epochs
         scores = measure(include_test)
         if rank == 0:
