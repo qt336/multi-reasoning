@@ -30,7 +30,7 @@ def worker(args):
     import torch
     from torch import distributed as dist
     from torch.nn import functional as F
-    from data import LOW, HIGH, save_json
+    from data import save_json
     from model import ReasoningTransformer
     from train import WEIGHT_DECAY, autocast, batch, training_model
 
@@ -46,8 +46,8 @@ def worker(args):
     local_batch = args.global_batch // 8
     # Match the formal run's resident shard and permutation memory footprint.
     # Random tokens and targets are for throughput only, not accuracy reporting.
-    x = torch.randint(LOW, HIGH + 1, (TRAIN_SIZE // 8, 31), dtype=torch.uint8, device=device)
-    y = torch.randint(LOW, HIGH + 1, (TRAIN_SIZE // 8,), dtype=torch.uint8, device=device)
+    x = torch.randint(20, 101, (TRAIN_SIZE // 8, 31), dtype=torch.uint8, device=device)
+    y = torch.randint(20, 101, (TRAIN_SIZE // 8,), dtype=torch.uint8, device=device)
     order = torch.randperm(TRAIN_SIZE // 8, device=device)
     raw_model = ReasoningTransformer().to(device)
     model = training_model(raw_model, device, local_rank, args.compile_model)

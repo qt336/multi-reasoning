@@ -14,7 +14,7 @@ import torch
 
 from benchmark import choose_best
 from canonical import from_positions, path_positions
-from data import LOW, HIGH, VOCAB_SIZE, N_FACTS, N_CHAIN, SEQ_LEN, encode, is_canonical, make_facts, prepare, sample_permutations, target_table, validate
+from data import LOW, HIGH, N_FACTS, N_CHAIN, SEQ_LEN, encode, is_canonical, make_facts, prepare, sample_permutations, target_table, validate
 from hardware import TRAIN_SIZE, batch_layout, select_batch
 from model import ReasoningTransformer
 from train import batch, evaluate, learning_rate, parser, record, resident_shard, training_sample_ids
@@ -50,7 +50,7 @@ class DataTests(unittest.TestCase):
         self.assertEqual(count, 8)  # Probability exactly 1/3.
 
     def test_fifteen_fact_chain_and_order_with_context(self):
-        self.assertEqual((N_FACTS, N_CHAIN, SEQ_LEN, LOW, HIGH, VOCAB_SIZE), (15, 4, 31, 1, 120, 120))
+        self.assertEqual((N_FACTS, N_CHAIN, SEQ_LEN, LOW, HIGH), (15, 4, 31, 20, 100))
         rng = np.random.default_rng(802)
         for split in ("train", "test"):
             facts, nodes, start = make_facts(rng, 200, split)
@@ -79,7 +79,6 @@ class DataTests(unittest.TestCase):
             x, y = np.load(root / "train_x.npy"), np.load(root / "train_y.npy")
             self.assertEqual(x.shape, (2000, 31))
             validate(x, y, "train")
-            np.testing.assert_array_equal(np.unique(x), np.arange(1, 121))
             ox, oy = np.load(root / "eval_x.npy"), np.load(root / "eval_y.npy")
             group_size = 10_000
             self.assertEqual(ox.shape, (2 * group_size, 31))
@@ -93,9 +92,7 @@ class DataTests(unittest.TestCase):
                                  set(map(tuple, b[:-1].reshape(-1, 2))))
             meta = json.loads((root / "dataset.json").read_text())
             self.assertEqual(meta["eval_per_group"], group_size)
-            self.assertEqual((meta["sequence_length"], meta["steps"], meta["vocab_size"]), (31, 4, 120))
-            self.assertEqual((meta["token_min"], meta["token_max"], meta["model_token_offset"],
-                              meta["format_version"]), (1, 120, 1, 4))
+            self.assertEqual((meta["sequence_length"], meta["steps"], meta["vocab_size"]), (31, 4, 101))
             mtime = (root / "train_x.npy").stat().st_mtime_ns
             prepare(root, train_size=2000, chunk_size=700)
             self.assertEqual(mtime, (root / "train_x.npy").stat().st_mtime_ns)
@@ -110,8 +107,8 @@ class ConfigurationTests(unittest.TestCase):
         with torch.device("meta"):
             model = ReasoningTransformer()
         self.assertEqual(len(model.blocks), 3)
-        self.assertEqual(tuple(model.token.weight.shape), (120, 1024))
-        self.assertEqual(tuple(model.head.weight.shape), (120, 1024))
+        self.assertEqual(tuple(model.token.weight.shape), (101, 1024))
+        self.assertEqual(tuple(model.head.weight.shape), (101, 1024))
         self.assertEqual(tuple(model.position.weight.shape), (31, 1024))
         for block in model.blocks:
             self.assertEqual(tuple(block.ffn[0].weight.shape), (2048, 1024))
@@ -197,10 +194,8 @@ class ConfigurationTests(unittest.TestCase):
             self.assertEqual(data[data.index("--train-size") + 1], "6500000")
             self.assertEqual(data[data.index("--eval-per-group") + 1], "10000")
             self.assertIn("6p5m", data[data.index("--root") + 1])
-            self.assertIn("vocab120", data[data.index("--root") + 1])
             launch = commands[2]
             self.assertIn("6p5m", launch[launch.index("--run-dir") + 1])
-            self.assertIn("vocab120", launch[launch.index("--run-dir") + 1])
             self.assertIn("--nproc_per_node=8", launch)
             for flag, value in (("--layers", "3"), ("--width", "1024"), ("--ffn-width", "2048"),
                                 ("--global-batch", "64000"), ("--lr", "1e-4")):
@@ -209,34 +204,29 @@ class ConfigurationTests(unittest.TestCase):
 
 
 class EvaluationTests(unittest.TestCase):
-    def test_resident_and_mmap_batches_map_symbols_to_120_classes(self):
-        x = np.tile(np.array([1, 120, 1, 120, 1], dtype=np.uint8), (4, 1))
-        y = np.array([1, 120, 120, 1], dtype=np.uint8)
+    def test_resident_batch_preserves_original_token_and_target_ids(self):
+        x = np.tile(np.array([20, 100, 20, 100, 20], dtype=np.uint8), (4, 1))
+        y = np.array([20, 100, 100, 20], dtype=np.uint8)
         tx, ty = resident_shard(x, y, 1, 3, torch.device("cpu"))
         a = batch(x, y, np.array([2, 1]), torch.device("cpu"))
         b = batch(tx, ty, torch.tensor([1, 0]), torch.device("cpu"))
         for left, right in zip(a, b):
             self.assertTrue(torch.equal(left, right))
-        self.assertEqual(a[0][0].tolist(), [0, 119, 0, 119, 0])
-        self.assertEqual(batch(x, y, np.array([0, 1]), torch.device("cpu"))[1].tolist(), [0, 119])
-        np.testing.assert_array_equal(x[0], [1, 120, 1, 120, 1])
-        self.assertEqual(tx[0].tolist(), [1, 120, 1, 120, 1])
+        self.assertEqual(batch(x, y, np.array([0, 1]), torch.device("cpu"))[1].tolist(), [20, 100])
         model = ReasoningTransformer(width=8, ffn_width=16, layers=1, length=5).eval()
         with torch.inference_mode():
-            logits = model(a[0])
-            self.assertEqual(tuple(logits.shape), (2, 120))
-            self.assertTrue(torch.isfinite(torch.nn.functional.cross_entropy(logits, a[1])))
+            self.assertEqual(tuple(model(a[0]).shape), (2, 101))
 
     def test_uneven_distributed_evaluation_counts_without_training(self):
         class PredictLastToken(torch.nn.Module):
             def forward(self, x):
-                return torch.nn.functional.one_hot(x[:, -1], 120).float()
+                return torch.nn.functional.one_hot(x[:, -1], 101).float()
         for group_size in (11, 10_000):
-            x = (torch.arange(2 * group_size) % 120 + 1).to(torch.uint8).reshape(-1, 1).repeat(1, 31)
+            x = (torch.arange(2 * group_size) % 81 + 20).to(torch.uint8).reshape(-1, 1).repeat(1, 31)
             y = x[:, -1].clone()
             # Distinct known accuracies ensure the two groups stay separate.
-            y[:group_size:2] = y[:group_size:2] % 120 + 1
-            y[group_size::4] = y[group_size::4] % 120 + 1
+            y[:group_size:2] = 0
+            y[group_size::4] = 0
             for offset, wrong in ((0, (group_size + 1) // 2),
                                   (group_size, (group_size + 3) // 4)):
                 with self.subTest(group_size=group_size, offset=offset):

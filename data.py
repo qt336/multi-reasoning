@@ -17,8 +17,7 @@ from pathlib import Path
 import numpy as np
 
 
-LOW, HIGH = 1, 120
-VOCAB_SIZE = HIGH - LOW + 1
+LOW, HIGH = 20, 100
 N_FACTS = 15
 N_CHAIN = 4
 SEQ_LEN = 2 * N_FACTS + 1
@@ -150,9 +149,8 @@ def prepare(root: Path, train_size: int = 6_500_000, eval_per_group: int = 10_00
         raise ValueError("Data sizes must be positive")
     root.mkdir(parents=True, exist_ok=True)
     meta_path = root / "dataset.json"
-    config = {"format_version": 4, "steps": N_CHAIN, "n_facts": N_FACTS,
-              "token_min": LOW, "token_max": HIGH, "vocab_size": VOCAB_SIZE,
-              "model_token_offset": LOW,
+    config = {"format_version": 3, "steps": N_CHAIN, "n_facts": N_FACTS,
+              "token_min": LOW, "token_max": HIGH, "vocab_size": 101,
               "train_size": train_size, "eval_per_group": eval_per_group,
               "seed": seed, "sequence_length": SEQ_LEN,
               "chunk_size": chunk_size,

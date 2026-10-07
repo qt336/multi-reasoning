@@ -1,8 +1,8 @@
 # 4 步推理：31 token、650 万条、8×A100 80GB
 
-本分支 `four-step-len31-32m-a100` 以原实验 `paper_4step_chain_mixed_batch1000_lr1e4_prenorm_kaiming_gamma1_seed2029` 为基准。实现一个 **3 层、d_m=1024、d_ff=2048** 的 4 步推理模型，输入 **31 token**，词典为 **1–120，共 120 个符号**，固定训练集 **6,500,000 条**，**8 张 A100 80GB 共同训练这个模型**。分支名沿用原名，当前训练条数已更新为 650 万。
+本分支 `four-step-len31-32m-a100` 以原实验 `paper_4step_chain_mixed_batch1000_lr1e4_prenorm_kaiming_gamma1_seed2029` 为基准。实现一个 **3 层、d_m=1024、d_ff=2048** 的 4 步推理模型，输入 **31 token**，固定训练集 **6,500,000 条**，**8 张 A100 80GB 共同训练这个模型**。分支名沿用原名，当前训练条数已更新为 650 万。
 
-原实验配置保存在 [reference_config.json](reference_config.json)。本次明确修改序列长度、训练条数、d_ff、GPU 数、batch、**词典 1–120** 和 **weight decay=0.3**；保留学习率 1e-4、`kaiming_uniform_relu_gamma1` 初始化及其余模型/优化超参数。main 分支保留此前独立的 7–13 步实验。
+原实验配置保存在 [reference_config.json](reference_config.json)。本次明确修改序列长度、训练条数、d_ff、GPU 数、batch 和 **weight decay=0.3**；**保留原词典**（101 个输出类别，节点取值 20–100）、学习率 1e-4 及其余模型/优化超参数。main 分支保留此前独立的 7–13 步实验。
 
 ## 启动
 
@@ -33,7 +33,7 @@ COMPILE_MODEL=0 bash run.sh
 
 默认显示设备为 `0,1,2,3,4,5,6,7`，启动时只读检查可见设备确为 8 张 A100、每张至少 75 GiB 显存容量。全局 batch 必须为正、是 8 的倍数且不超过 6,500,000；最后不足一个 batch 时，8 张卡共同处理剩余样本，不丢弃或补齐样本。`PYTHON` 可指定解释器。
 
-数据目录为 `data/chain_4step_6p5m_len31_vocab120_eval10000`。run 目录包含 d_ff、长度、条数、词典、batch、编译开关和每组测试条数，使用 `6p5m`、`vocab120` 和 `_wd0p3` 区分旧实验。重复同一命令会复用完整数据集、固定训练评估行号，恢复 `latest.pt` 中的模型、AdamW 状态与已完成 epoch；不兼容配置会被拒绝。本次词典更新会重新生成 650 万条训练数据及两组测试数据，从头训练，保留旧数据、checkpoint 和曲线。
+数据目录为 `data/chain_4step_6p5m_len31_vocab101_eval10000`。run 目录包含 d_ff、长度、条数、batch、编译开关和每组测试条数，使用 `6p5m` 区分之前 3200 万条的实验，并增加 `_wd0p3` 后缀区分 weight decay=0.1 的旧运行。重复同一命令会复用完整数据集、固定训练评估行号，恢复 `latest.pt` 中的模型、AdamW 状态与已完成 epoch；不兼容配置会被拒绝。本次更新会复用已有的 650 万条数据，从头训练 weight decay=0.3 的新运行，保留旧 checkpoint 和曲线。
 
 ## 吞吐优化与目标机器实测
 
@@ -68,7 +68,7 @@ GLOBAL_BATCH=<实测最快的候选> bash run.sh
 | 序列长度 | **31**：15 个事实对，共 30 token，最后 1 个查询 token |
 | 训练数据 | **6,500,000 条**固定数据；每轮完整遍历 |
 | GPU / 默认 batch | **8×A100 80GB / 全局 64,000 / 每卡 8,000** |
-| 输出词典 / 数据节点 | **120 类，节点 1–120**；数据文件保留原数字，输入与标签统一减 1 映射到模型索引 **0–119**；预测索引加 1 还原节点 |
+| 输出词典 / 数据节点 | 原来的 **101 类，token ID 0–100**；数据节点只使用 **20–100**，不做减 1 映射 |
 | 最大 LR / warmup / epochs | **1e-4 / 20 epoch / 2000 epoch**，warmup 后 cosine |
 | 优化器 | AdamW，betas=(0.9,0.999)，eps=1e-8，**weight decay=0.3**，包含所有参数 |
 | 归一化 | PreNorm RMSNorm；eps=1e-6；固定 gain=1，无可学习 affine；输出头前 final RMSNorm |
@@ -83,9 +83,7 @@ GLOBAL_BATCH=<实测最快的候选> bash run.sh
 | 测试准确率 | canonical 和 noncanonical **各 10,000 条**；每 GPU 每组 1250 条；合计 20,000 条 |
 | OMP_NUM_THREADS | 2 |
 
-每条数据的 15 条事实组成一条连续、节点互异的有向链；查询起点在能向后走 4 步的位置中均匀选择，答案为第 4 步终点，事实对顺序随机。保留原数据生成方法，链长由 12 条改为 15 条，节点范围改为 1–120。完整数据写完后才生成 `dataset.json`；未完成的数据目录不能误当作可复用数据集。
-
-词典范围在训练与测试中均为 1–120，事实对仍按原有 modulo-5 规则划分。数据清单记录 `format_version=4`、`vocab_size=120`、`model_token_offset=1`；embedding 为 120 行，输出头为 120 类，准确率通过模型索引与减 1 后的标签比较。
+每条数据的 15 条事实组成一条连续、节点互异的有向链；查询起点在能向后走 4 步的位置中均匀选择，答案为第 4 步终点，事实对顺序随机。原数据生成算法保留，仅将链长由 12 条改为 15 条。完整数据写完后才生成 `dataset.json`；未完成的数据目录不能误当作可复用数据集。
 
 ## 准确率与 canonical 序关系
 

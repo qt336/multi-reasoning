@@ -18,7 +18,7 @@ from torch import distributed as dist
 from torch.nn import functional as F
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-from data import LOW, HIGH, VOCAB_SIZE, save_array, save_json
+from data import save_array, save_json
 from hardware import batch_layout
 from model import ReasoningTransformer
 from plot import render
@@ -62,12 +62,12 @@ def load_xy(root, name):
 
 
 def batch(x, y, ids, device):
-    # Stored symbols 1..120 become embedding/target indices 0..119.
+    # Preserve the reference's token/target IDs and all 101 output classes.
     if isinstance(x, torch.Tensor):
         ids = torch.as_tensor(ids, dtype=torch.long, device=x.device)
-        return x[ids].long().sub_(LOW), y[ids].long().sub_(LOW)
-    return (torch.from_numpy(np.array(x[ids], dtype=np.int64, copy=True)).to(device).sub_(LOW),
-            torch.from_numpy(np.array(y[ids], dtype=np.int64, copy=True)).to(device).sub_(LOW))
+        return x[ids].long(), y[ids].long()
+    return (torch.from_numpy(np.array(x[ids], dtype=np.int64, copy=True)).to(device),
+            torch.from_numpy(np.array(y[ids], dtype=np.int64, copy=True)).to(device))
 
 
 def resident_shard(x, y, left, right, device):
@@ -196,12 +196,11 @@ def main(args):
     if train_x.shape != (train_size, 31) or train_y.shape != (train_size,):
         raise ValueError("Training array shape differs from the 31-token manifest")
     if (meta["sequence_length"] != 31 or steps != 4 or meta.get("n_facts") != 15 or
-            meta.get("token_min") != LOW or meta.get("token_max") != HIGH or
-            meta.get("vocab_size") != VOCAB_SIZE or meta.get("format_version") != 4 or
-            meta.get("model_token_offset") != LOW):
+            meta.get("token_min") != 20 or meta.get("token_max") != 100 or
+            meta.get("vocab_size") != 101 or meta.get("format_version") != 3):
         raise ValueError("Unsupported task")
     model_config = dict(width=args.width, ffn_width=args.ffn_width, layers=args.layers,
-                        vocab=VOCAB_SIZE, length=31, initialization=args.initialization,
+                        vocab=101, length=31, initialization=args.initialization,
                         normalization=args.normalization)
     config = dict(data=meta, model=model_config, gpus=world, global_batch=args.global_batch,
                   learning_rate=args.lr, warmup_epochs=args.warmup_epochs,
