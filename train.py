@@ -24,6 +24,7 @@ from model import ReasoningTransformer
 from plot import render
 
 
+WEIGHT_DECAY = 0.3
 METRICS = ("train", "test", "test_canonical", "test_noncanonical")
 FIELDS = ("epoch", *(f"{name}_{stat}" for name in METRICS
                      for stat in ("correct", "n", "accuracy")),
@@ -206,7 +207,7 @@ def main(args):
                   epochs=args.epochs, eval_every=args.eval_every, eval_batch=args.eval_batch,
                   seed=args.seed, train_accuracy_sample_size=args.train_eval_size,
                   train_accuracy_sample_seed=args.train_eval_seed, train_accuracy_every=1,
-                  optimizer="AdamW", betas=[0.9, 0.999], eps=1e-8, weight_decay=0.1,
+                  optimizer="AdamW", betas=[0.9, 0.999], eps=1e-8, weight_decay=WEIGHT_DECAY,
                   device=args.device, mixed_precision="bfloat16" if args.device == "cuda" else None,
                   data_residency=args.data_residency,
                   data_loading="fixed uint8 shard; full random permutation per epoch",
@@ -260,7 +261,7 @@ def main(args):
     raw_model = ReasoningTransformer(**model_config).to(device)
     model = training_model(raw_model, device, local_rank, args.compile_model)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.999),
-                                 eps=1e-8, weight_decay=0.1, fused=device.type == "cuda")
+                                 eps=1e-8, weight_decay=WEIGHT_DECAY, fused=device.type == "cuda")
     total_steps, warmup_steps = steps_per_epoch * args.epochs, steps_per_epoch * args.warmup_epochs
     checkpoint = args.run_dir / "latest.pt"
     start_epoch = 0

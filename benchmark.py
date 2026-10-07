@@ -32,7 +32,7 @@ def worker(args):
     from torch.nn import functional as F
     from data import save_json
     from model import ReasoningTransformer
-    from train import autocast, batch, training_model
+    from train import WEIGHT_DECAY, autocast, batch, training_model
 
     rank, local_rank = int(os.environ["RANK"]), int(os.environ["LOCAL_RANK"])
     if int(os.environ["WORLD_SIZE"]) != 8:
@@ -52,7 +52,7 @@ def worker(args):
     raw_model = ReasoningTransformer().to(device)
     model = training_model(raw_model, device, local_rank, args.compile_model)
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4,
-                                 betas=(0.9, 0.999), eps=1e-8, weight_decay=0.1, fused=True)
+                                 betas=(0.9, 0.999), eps=1e-8, weight_decay=WEIGHT_DECAY, fused=True)
 
     def update(i):
         # Measure full batches consistently, even when the shard has a tail.

@@ -2,7 +2,7 @@
 
 本分支 `four-step-len31-32m-a100` 以原实验 `paper_4step_chain_mixed_batch1000_lr1e4_prenorm_kaiming_gamma1_seed2029` 为基准。实现一个 **3 层、d_m=1024、d_ff=2048** 的 4 步推理模型，输入 **31 token**，固定训练集 **6,500,000 条**，**8 张 A100 80GB 共同训练这个模型**。分支名沿用原名，当前训练条数已更新为 650 万。
 
-原实验配置保存在 [reference_config.json](reference_config.json)。本次明确修改序列长度、训练条数、d_ff、GPU 数和 batch；**保留原词典**（101 个输出类别，节点取值 20–100）、学习率 1e-4 及其余模型/优化超参数。main 分支保留此前独立的 7–13 步实验。
+原实验配置保存在 [reference_config.json](reference_config.json)。本次明确修改序列长度、训练条数、d_ff、GPU 数、batch 和 **weight decay=0.3**；**保留原词典**（101 个输出类别，节点取值 20–100）、学习率 1e-4 及其余模型/优化超参数。main 分支保留此前独立的 7–13 步实验。
 
 ## 启动
 
@@ -33,7 +33,7 @@ COMPILE_MODEL=0 bash run.sh
 
 默认显示设备为 `0,1,2,3,4,5,6,7`，启动时只读检查可见设备确为 8 张 A100、每张至少 75 GiB 显存容量。全局 batch 必须为正、是 8 的倍数且不超过 6,500,000；最后不足一个 batch 时，8 张卡共同处理剩余样本，不丢弃或补齐样本。`PYTHON` 可指定解释器。
 
-数据目录为 `data/chain_4step_6p5m_len31_vocab101_eval10000`。run 目录包含 d_ff、长度、条数、batch、编译开关和每组测试条数，使用 `6p5m` 区分之前 3200 万条的实验。重复同一命令会复用完整数据集、固定训练评估行号，恢复 `latest.pt` 中的模型、AdamW 状态与已完成 epoch；不兼容配置会被拒绝。更新后默认从头训练 650 万条的新实验，保留旧数据与 checkpoint。
+数据目录为 `data/chain_4step_6p5m_len31_vocab101_eval10000`。run 目录包含 d_ff、长度、条数、batch、编译开关和每组测试条数，使用 `6p5m` 区分之前 3200 万条的实验，并增加 `_wd0p3` 后缀区分 weight decay=0.1 的旧运行。重复同一命令会复用完整数据集、固定训练评估行号，恢复 `latest.pt` 中的模型、AdamW 状态与已完成 epoch；不兼容配置会被拒绝。本次更新会复用已有的 650 万条数据，从头训练 weight decay=0.3 的新运行，保留旧 checkpoint 和曲线。
 
 ## 吞吐优化与目标机器实测
 
@@ -70,7 +70,7 @@ GLOBAL_BATCH=<实测最快的候选> bash run.sh
 | GPU / 默认 batch | **8×A100 80GB / 全局 64,000 / 每卡 8,000** |
 | 输出词典 / 数据节点 | 原来的 **101 类，token ID 0–100**；数据节点只使用 **20–100**，不做减 1 映射 |
 | 最大 LR / warmup / epochs | **1e-4 / 20 epoch / 2000 epoch**，warmup 后 cosine |
-| 优化器 | AdamW，betas=(0.9,0.999)，eps=1e-8，weight decay=0.1，包含所有参数 |
+| 优化器 | AdamW，betas=(0.9,0.999)，eps=1e-8，**weight decay=0.3**，包含所有参数 |
 | 归一化 | PreNorm RMSNorm；eps=1e-6；固定 gain=1，无可学习 affine；输出头前 final RMSNorm |
 | 初始化 | `kaiming_uniform_relu_gamma1`；线性权重 U(−√6/fan_in,+√6/fan_in)，bias U(−1/fan_in,+1/fan_in) |
 | Embedding | token 和可学习绝对位置嵌入均 N(0,1)；无 RoPE |

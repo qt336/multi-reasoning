@@ -24,7 +24,7 @@ fi
 data_root="${DATA_ROOT:-$project_dir/data}"
 run_root="${RUN_ROOT:-$project_dir/runs}"
 data_dir="$data_root/chain_4step_6p5m_len31_vocab101_eval10000"
-run_dir="$run_root/chain_4step_3layer_dm1024_dff2048_len31_6p5m_batch${global_batch}_compile${compile_model}_seed2029_eval10000"
+run_dir="$run_root/chain_4step_3layer_dm1024_dff2048_len31_6p5m_batch${global_batch}_compile${compile_model}_seed2029_eval10000_wd0p3"
 if [[ "$mode" == train ]]; then
   "$python_bin" hardware.py --global-batch "$global_batch"
 fi
