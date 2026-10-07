@@ -42,7 +42,7 @@ class Block(nn.Module):
 
 class ReasoningTransformer(nn.Module):
     def __init__(self, width: int = 1024, ffn_width: int = 2048,
-                 layers: int = 3, vocab: int = 101, length: int = 31,
+                 layers: int = 3, vocab: int = 120, length: int = 31,
                  initialization: str = "kaiming_uniform_relu_gamma1", normalization: str = "prenorm"):
         super().__init__()
         if initialization not in ("uniform_gamma1", "kaiming_uniform_relu", "kaiming_uniform_relu_gamma1"):
