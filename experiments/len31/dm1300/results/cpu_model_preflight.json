@@ -1,0 +1,9 @@
+{
+  "device": "cpu",
+  "width": 1300,
+  "ffn_width": 2600,
+  "parameter_count": 40890301,
+  "forward_backward_finite": true,
+  "dtype": "torch.float32",
+  "training_started": false
+}

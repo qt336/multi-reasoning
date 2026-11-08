@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+source /home/qintian/multi-reasoning/server_env.sh
+export CUDA_VISIBLE_DEVICES=GPU-73e92888-d845-ae63-bc9c-3f2163b0368b,GPU-099b37eb-b5ff-38f5-c3c6-09e02374c4a0
+export CUDA_DEVICE_ORDER=PCI_BUS_ID
+export OMP_NUM_THREADS=2
+export TORCHINDUCTOR_COMPILE_THREADS=2
+export NVIDIA_TF32_OVERRIDE=0
+export MPLBACKEND=Agg
+export PYTHONUNBUFFERED=1

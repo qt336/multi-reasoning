@@ -1,0 +1,129 @@
+{
+  "state": "ready",
+  "updated_at": "2026-11-06T12:10:48.781604+00:00",
+  "latest": {
+    "epoch": 355,
+    "generation": "snapshot_43424782_1793967020041925754_single",
+    "generated_at": "2026-11-06T12:10:48.781516+00:00",
+    "view_version": 2,
+    "color_scale_version": 3,
+    "color_scale": "continuous Blues; sqrt(p); fixed range 0..1; 15% labeled",
+    "examples": {
+      "can": {
+        "id": 1165,
+        "tokens": [
+          82,
+          55,
+          97,
+          44,
+          45,
+          97,
+          30,
+          52,
+          69,
+          92,
+          90,
+          32,
+          32,
+          69,
+          77,
+          39,
+          44,
+          77,
+          92,
+          30,
+          52,
+          45,
+          55,
+          33,
+          33,
+          90,
+          47,
+          60,
+          39,
+          47,
+          45
+        ],
+        "path_slots_1based": [
+          3,
+          2,
+          9,
+          8
+        ],
+        "answer": 39,
+        "prediction": 77
+      },
+      "noncan": {
+        "id": 11165,
+        "tokens": [
+          92,
+          30,
+          45,
+          97,
+          52,
+          45,
+          39,
+          47,
+          47,
+          60,
+          33,
+          90,
+          90,
+          32,
+          55,
+          33,
+          77,
+          39,
+          69,
+          92,
+          44,
+          77,
+          82,
+          55,
+          97,
+          44,
+          30,
+          52,
+          32,
+          69,
+          45
+        ],
+        "path_slots_1based": [
+          2,
+          13,
+          11,
+          9
+        ],
+        "answer": 39,
+        "prediction": 90
+      }
+    },
+    "elapsed_seconds": 15.78,
+    "fingerprint": [
+      66306,
+      43424782,
+      742193914,
+      1793967020041925754
+    ],
+    "checkpoint_sha256": "01d50bf9ae820df35e7ec431cb215618b98bdd70f02b042da09a3f5025c440ac",
+    "sample_count": 2,
+    "sampling_seed": 20261022,
+    "device": "cpu",
+    "reconstruction_max_logit_error": 6.67572021484375e-06,
+    "pair_mass": [
+      0.6903820335865021,
+      0.10496282204985619,
+      0.07231387123465538
+    ],
+    "pair_top1": [
+      1.0,
+      0.06666666666666667,
+      0.06666666666666667
+    ],
+    "query_answer_top1": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

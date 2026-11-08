@@ -1,0 +1,7 @@
+{
+  "source": "/home/qintian/multi-reasoning/data/chain_4step_6p5m_len31_vocab101_eval10000",
+  "source_size": 6500000,
+  "sample_size": 10000,
+  "sample_seed": 2027,
+  "sampling": "fixed without replacement, equal per training shard"
+}

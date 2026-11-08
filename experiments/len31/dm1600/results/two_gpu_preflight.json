@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "checked_at": "2026-10-31T06:38:53.274000+00:00",
+  "gpus": 2,
+  "physical_gpus": [
+    5,
+    7
+  ],
+  "global_batch": 4000,
+  "per_gpu_batch": 2000,
+  "gradient_accumulation_steps": 1,
+  "precision": "fp32",
+  "tf32": false,
+  "parameters": 61846501,
+  "reports": [
+    {
+      "rank": 0,
+      "device": "NVIDIA GeForce RTX 4080",
+      "seconds_per_step": 1.0521299374988302,
+      "peak_allocated_mib": 14334.1240234375,
+      "peak_reserved_mib": 15024.0,
+      "loss": 4.414177894592285,
+      "gradient_norm": 0.7588168978691101
+    },
+    {
+      "rank": 1,
+      "device": "NVIDIA GeForce RTX 4080",
+      "seconds_per_step": 1.0520694838953204,
+      "peak_allocated_mib": 14334.1240234375,
+      "peak_reserved_mib": 15024.0,
+      "loss": 4.409820079803467,
+      "gradient_norm": 0.7588168978691101
+    }
+  ],
+  "estimated_train_seconds_per_epoch": 1709.7111484355992
+}

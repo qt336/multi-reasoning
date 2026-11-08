@@ -1,0 +1,40 @@
+{
+  "epoch": 355,
+  "test_loss": 4.699397778913624,
+  "test_canonical_loss": 4.853361573645522,
+  "test_noncanonical_loss": 4.5454339841817255,
+  "test_loss_n": 20000,
+  "groups": {
+    "test_canonical": {
+      "loss": 4.853361573645522,
+      "loss_sum": 48533.61573645522,
+      "correct": 1251,
+      "n": 10000,
+      "accuracy": 0.1251
+    },
+    "test_noncanonical": {
+      "loss": 4.5454339841817255,
+      "loss_sum": 45454.33984181726,
+      "correct": 1110,
+      "n": 10000,
+      "accuracy": 0.111
+    }
+  },
+  "device": "cpu",
+  "precision": "fp32_tf32_off",
+  "evaluated_at": "2026-11-06T12:19:27.947649+00:00",
+  "elapsed_seconds": 526.92,
+  "accuracy_check": {
+    "test_canonical": {
+      "logged_correct": 1251,
+      "recomputed_correct": 1251,
+      "difference": 0
+    },
+    "test_noncanonical": {
+      "logged_correct": 1110,
+      "recomputed_correct": 1110,
+      "difference": 0
+    }
+  },
+  "checkpoint_sha256": "01d50bf9ae820df35e7ec431cb215618b98bdd70f02b042da09a3f5025c440ac"
+}

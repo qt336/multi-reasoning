@@ -1,0 +1,2 @@
+epoch,train_correct,train_n,train_accuracy,test_correct,test_n,test_accuracy,test_canonical_correct,test_canonical_n,test_canonical_accuracy,test_noncanonical_correct,test_noncanonical_n,test_noncanonical_accuracy,train_loss,learning_rate,elapsed_hours
+0,100,10000,0.01,176,20000,0.0088,88,10000,0.0088,88,10000,0.0088,,0,0.001876878539721171

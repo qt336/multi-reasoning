@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+source /home/qintian/multi-reasoning/runs/chain_4step_3layer_dm1300_dff2600_len31_6p5m_4x4080_batch4000_compile1_seed2031_eval10000_wd0p15_lr1e-4_fp32_20261027/source_at_launch/server_env_resume_20261027.sh
+export CUDA_VISIBLE_DEVICES=GPU-122285b6-bce0-f9d9-d4f9-39b8a31413ba,GPU-d88e7221-cfaf-b55c-3c72-8bb280bd87f9

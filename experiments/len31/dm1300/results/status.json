@@ -1,0 +1,18 @@
+{
+  "state": "paused",
+  "epochs": 2000,
+  "epoch": 1576,
+  "train_loss": 0.0021138936298076925,
+  "learning_rate": 1.0894327913211844e-05,
+  "elapsed_hours": 253.46281522969406,
+  "train_correct": 9995,
+  "train_n": 10000,
+  "train_accuracy": 0.9995,
+  "updated_at": "2026-11-07T07:14:22+08:00",
+  "seconds_per_epoch": 560.2261912822723,
+  "examples_per_second": 11602.456454343068,
+  "accuracy_scope": "fixed training sample; paired canonical/noncanonical held-out test",
+  "pause_reason": "User requested new four-layer length-25 experiment",
+  "resume_checkpoint": "/home/qintian/multi-reasoning/runs/chain_4step_3layer_dm1300_dff2600_len31_6p5m_4x4080_batch4000_compile1_seed2031_eval10000_wd0p15_lr1e-4_fp32_20261027/paused_for_4layer_len25_20261107/resume.pt",
+  "checkpoint_epoch": 1575
+}

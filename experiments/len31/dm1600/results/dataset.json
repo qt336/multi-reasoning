@@ -1,0 +1,23 @@
+{
+  "format_version": 3,
+  "steps": 4,
+  "n_facts": 15,
+  "token_min": 20,
+  "token_max": 100,
+  "vocab_size": 101,
+  "train_size": 6500000,
+  "eval_per_group": 10000,
+  "seed": 2027,
+  "sequence_length": 31,
+  "chunk_size": 50000,
+  "structure": "one_continuous_15_fact_chain_query_four_steps",
+  "train_mod5": [
+    0,
+    1,
+    4
+  ],
+  "test_mod5": [
+    2,
+    3
+  ]
+}

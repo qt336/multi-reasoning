@@ -1,0 +1,45 @@
+{
+  "paper": "iclr2027.pdf, Section 7 and Appendix E",
+  "data": {
+    "train_size": 5400000,
+    "eval_per_group": 1000,
+    "seed": 2027,
+    "sequence_length": 25,
+    "structure": "one_continuous_12_fact_chain_query_four_steps",
+    "train_mod5": [
+      0,
+      1,
+      4
+    ],
+    "test_mod5": [
+      2,
+      3
+    ]
+  },
+  "gpus": 2,
+  "layers": 3,
+  "width": 1024,
+  "ffn_width": 1200,
+  "global_batch": 1000,
+  "learning_rate": 0.0001,
+  "embedding_init": "N(0,1) for word and position embeddings",
+  "initialization": "kaiming_uniform_relu_gamma1",
+  "nonembedding_init_power": 1.0,
+  "nonembedding_init_std": "Kaiming uniform fan_in ReLU with power1: weight std=sqrt(2)/fan_in, bounds +/-sqrt(6)/fan_in; bias bounds +/-1/fan_in, std=1/(sqrt(3)*fan_in)",
+  "rmsnorm_gain": "fixed 1 (elementwise_affine=False)",
+  "layernorm_affine": null,
+  "normalization": "prenorm",
+  "normalization_layout": "RMSNorm before attention and before FFN; residual addition after each; final RMSNorm before output head",
+  "rmsnorm_eps": 1e-06,
+  "layernorm_eps": null,
+  "activation": "ReLU",
+  "weight_decay": 0.1,
+  "warmup_epochs": 20,
+  "epochs": 2000,
+  "eval_every": 5,
+  "seed": 2029,
+  "train_accuracy_sample_size": 10000,
+  "train_accuracy_sample_seed": 2027,
+  "train_accuracy_every": 1,
+  "started_at": "2026-09-27T10:43:18+08:00"
+}

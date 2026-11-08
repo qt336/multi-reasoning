@@ -1,0 +1,2783 @@
+{
+  "run_name": "chain_4step_3layer_dm1300_dff2600_len31_6p5m_4x4080_batch4000_compile1_seed2031_eval10000_wd0p15_lr1e-4_fp32_20261027",
+  "rows": [
+    {
+      "epoch": 30,
+      "test_loss": 3.3851768902534154,
+      "test_canonical_loss": 3.3702675898185,
+      "test_noncanonical_loss": 3.400086190688331,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.3702675898185,
+          "loss_sum": 33702.675898185,
+          "correct": 1453,
+          "n": 10000,
+          "accuracy": 0.1453
+        },
+        "test_noncanonical": {
+          "loss": 3.400086190688331,
+          "loss_sum": 34000.86190688331,
+          "correct": 1407,
+          "n": 10000,
+          "accuracy": 0.1407
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T04:59:30.230958+00:00",
+      "elapsed_seconds": 3.77,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1453,
+          "recomputed_correct": 1453,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1407,
+          "recomputed_correct": 1407,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "bcd2dd679f5b82b9c2b268a9666fd320872baf783ffcdfb38a3940047d93edb6",
+      "fingerprint": [
+        66306,
+        43387109,
+        490718202,
+        1793113973103424213
+      ]
+    },
+    {
+      "epoch": 31,
+      "test_loss": 3.645115644325735,
+      "test_canonical_loss": 3.581719567717798,
+      "test_noncanonical_loss": 3.708511720933672,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.581719567717798,
+          "loss_sum": 35817.19567717798,
+          "correct": 1410,
+          "n": 10000,
+          "accuracy": 0.141
+        },
+        "test_noncanonical": {
+          "loss": 3.708511720933672,
+          "loss_sum": 37085.11720933672,
+          "correct": 1281,
+          "n": 10000,
+          "accuracy": 0.1281
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T04:59:22.501693+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {},
+      "checkpoint_sha256": "77716e77f1a05461f5777d79254f2127694821fee99568c242caa189315bb9a9",
+      "fingerprint": [
+        66306,
+        43387101,
+        490718202,
+        1793114608089015615
+      ]
+    },
+    {
+      "epoch": 32,
+      "test_loss": 3.8882833097435765,
+      "test_canonical_loss": 3.804388377626333,
+      "test_noncanonical_loss": 3.97217824186082,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.804388377626333,
+          "loss_sum": 38043.883776263334,
+          "correct": 1401,
+          "n": 10000,
+          "accuracy": 0.1401
+        },
+        "test_noncanonical": {
+          "loss": 3.97217824186082,
+          "loss_sum": 39721.7824186082,
+          "correct": 1214,
+          "n": 10000,
+          "accuracy": 0.1214
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T04:59:14.793590+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {},
+      "checkpoint_sha256": "bce52fabd45e3ac3c19c4a668db77c1a213092be55e89626f5678c013a0d6eb6",
+      "fingerprint": [
+        66306,
+        43387099,
+        490718202,
+        1793115241701041187
+      ]
+    },
+    {
+      "epoch": 33,
+      "test_loss": 3.9695414607495185,
+      "test_canonical_loss": 3.861786500776163,
+      "test_noncanonical_loss": 4.077296420722874,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.861786500776163,
+          "loss_sum": 38617.86500776163,
+          "correct": 1451,
+          "n": 10000,
+          "accuracy": 0.1451
+        },
+        "test_noncanonical": {
+          "loss": 4.077296420722874,
+          "loss_sum": 40772.96420722874,
+          "correct": 1283,
+          "n": 10000,
+          "accuracy": 0.1283
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T04:59:06.893416+00:00",
+      "elapsed_seconds": 3.76,
+      "accuracy_check": {},
+      "checkpoint_sha256": "2d00b33d0ed58738a95b1ad7877062497a455ba6e8eb6c3dbf7272545535a867",
+      "fingerprint": [
+        66306,
+        43387106,
+        490718202,
+        1793115874119081612
+      ]
+    },
+    {
+      "epoch": 35,
+      "test_loss": 4.333233454541868,
+      "test_canonical_loss": 4.225013290475262,
+      "test_noncanonical_loss": 4.441453618608473,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 4.225013290475262,
+          "loss_sum": 42250.13290475262,
+          "correct": 1240,
+          "n": 10000,
+          "accuracy": 0.124
+        },
+        "test_noncanonical": {
+          "loss": 4.441453618608473,
+          "loss_sum": 44414.53618608473,
+          "correct": 1054,
+          "n": 10000,
+          "accuracy": 0.1054
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T04:58:59.214983+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1240,
+          "recomputed_correct": 1240,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1054,
+          "recomputed_correct": 1054,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "09f3ec90db57acf25557bf99d1a3b954a57d7bc8de34b5e7ced4db0957386c33",
+      "fingerprint": [
+        66306,
+        43387113,
+        490718202,
+        1793117142139455922
+      ]
+    },
+    {
+      "epoch": 105,
+      "test_loss": 6.215504682948322,
+      "test_canonical_loss": 6.290930389704746,
+      "test_noncanonical_loss": 6.140078976191898,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 6.290930389704746,
+          "loss_sum": 62909.30389704746,
+          "correct": 721,
+          "n": 10000,
+          "accuracy": 0.0721
+        },
+        "test_noncanonical": {
+          "loss": 6.140078976191898,
+          "loss_sum": 61400.789761918975,
+          "correct": 840,
+          "n": 10000,
+          "accuracy": 0.084
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T04:58:51.482415+00:00",
+      "elapsed_seconds": 3.79,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 721,
+          "recomputed_correct": 721,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 840,
+          "recomputed_correct": 840,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "b109be155396e19773d75d00f7743d76b59fa7afdb0197725b04aa6f7b03e0e6",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793161582554282983
+      ]
+    },
+    {
+      "epoch": 110,
+      "test_loss": 5.85956667433236,
+      "test_canonical_loss": 5.9314766976248325,
+      "test_noncanonical_loss": 5.787656651039887,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 5.9314766976248325,
+          "loss_sum": 59314.76697624833,
+          "correct": 744,
+          "n": 10000,
+          "accuracy": 0.0744
+        },
+        "test_noncanonical": {
+          "loss": 5.787656651039887,
+          "loss_sum": 57876.56651039887,
+          "correct": 882,
+          "n": 10000,
+          "accuracy": 0.0882
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T05:20:11.235705+00:00",
+      "elapsed_seconds": 3.74,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 744,
+          "recomputed_correct": 744,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 882,
+          "recomputed_correct": 882,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "e746a11f3a2a587e45d23544657456cce4a2326ff387ef340bb54e758fbb8615",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793164783588638530
+      ]
+    },
+    {
+      "epoch": 115,
+      "test_loss": 6.195809547296794,
+      "test_canonical_loss": 6.400616763158399,
+      "test_noncanonical_loss": 5.99100233143519,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 6.400616763158399,
+          "loss_sum": 64006.16763158399,
+          "correct": 517,
+          "n": 10000,
+          "accuracy": 0.0517
+        },
+        "test_noncanonical": {
+          "loss": 5.99100233143519,
+          "loss_sum": 59910.0233143519,
+          "correct": 816,
+          "n": 10000,
+          "accuracy": 0.0816
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T06:13:27.355089+00:00",
+      "elapsed_seconds": 3.74,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 517,
+          "recomputed_correct": 517,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 816,
+          "recomputed_correct": 816,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "b4d68aafddc7a4ffa5b250b5e8a1a8793f355a5d25dc63db432fe913d6457b53",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793167985666647685
+      ]
+    },
+    {
+      "epoch": 120,
+      "test_loss": 6.2131863312187825,
+      "test_canonical_loss": 6.495451520343055,
+      "test_noncanonical_loss": 5.930921142094509,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 6.495451520343055,
+          "loss_sum": 64954.51520343055,
+          "correct": 589,
+          "n": 10000,
+          "accuracy": 0.0589
+        },
+        "test_noncanonical": {
+          "loss": 5.930921142094509,
+          "loss_sum": 59309.211420945096,
+          "correct": 951,
+          "n": 10000,
+          "accuracy": 0.0951
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T07:07:12.783840+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 589,
+          "recomputed_correct": 589,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 951,
+          "recomputed_correct": 951,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "c117b1518d3878853edab228c2e44a68c9356b543aa01dfcc81ee688bd5080d2",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793171203356118761
+      ]
+    },
+    {
+      "epoch": 125,
+      "test_loss": 6.105063146999741,
+      "test_canonical_loss": 6.517600040724222,
+      "test_noncanonical_loss": 5.69252625327526,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 6.517600040724222,
+          "loss_sum": 65176.000407242216,
+          "correct": 542,
+          "n": 10000,
+          "accuracy": 0.0542
+        },
+        "test_noncanonical": {
+          "loss": 5.69252625327526,
+          "loss_sum": 56925.262532752604,
+          "correct": 967,
+          "n": 10000,
+          "accuracy": 0.0967
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T08:00:57.948081+00:00",
+      "elapsed_seconds": 3.75,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 542,
+          "recomputed_correct": 542,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 967,
+          "recomputed_correct": 967,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "87c384fa2bf31961fe4f3d5139a42635988a69ed21e44c16838b16d90b7150fc",
+      "fingerprint": [
+        66306,
+        43384914,
+        490718202,
+        1793174433521011677
+      ]
+    },
+    {
+      "epoch": 130,
+      "test_loss": 6.083275450613311,
+      "test_canonical_loss": 6.615415922135068,
+      "test_noncanonical_loss": 5.551134979091553,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 6.615415922135068,
+          "loss_sum": 66154.15922135068,
+          "correct": 568,
+          "n": 10000,
+          "accuracy": 0.0568
+        },
+        "test_noncanonical": {
+          "loss": 5.551134979091553,
+          "loss_sum": 55511.34979091553,
+          "correct": 1049,
+          "n": 10000,
+          "accuracy": 0.1049
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T08:54:44.041324+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 568,
+          "recomputed_correct": 568,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1049,
+          "recomputed_correct": 1049,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "9fcab72041b2c45f590a37a350493af503c228699dfbdab20d6c398acb061bcc",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793177661367289108
+      ]
+    },
+    {
+      "epoch": 135,
+      "test_loss": 5.50952035691272,
+      "test_canonical_loss": 6.00825297483552,
+      "test_noncanonical_loss": 5.010787738989922,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 6.00825297483552,
+          "loss_sum": 60082.52974835519,
+          "correct": 667,
+          "n": 10000,
+          "accuracy": 0.0667
+        },
+        "test_noncanonical": {
+          "loss": 5.010787738989922,
+          "loss_sum": 50107.87738989922,
+          "correct": 998,
+          "n": 10000,
+          "accuracy": 0.0998
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T09:48:28.526087+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 667,
+          "recomputed_correct": 667,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 998,
+          "recomputed_correct": 998,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "4daf9287d5d3a30c7161f40cf5411564d1dd3db3228a1fad2d6aae006d142add",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793180893513389445
+      ]
+    },
+    {
+      "epoch": 140,
+      "test_loss": 5.332540760761195,
+      "test_canonical_loss": 5.8017487615777386,
+      "test_noncanonical_loss": 4.863332759944652,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 5.8017487615777386,
+          "loss_sum": 58017.48761577738,
+          "correct": 799,
+          "n": 10000,
+          "accuracy": 0.0799
+        },
+        "test_noncanonical": {
+          "loss": 4.863332759944652,
+          "loss_sum": 48633.32759944652,
+          "correct": 1126,
+          "n": 10000,
+          "accuracy": 0.1126
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T10:42:45.412157+00:00",
+      "elapsed_seconds": 3.75,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 799,
+          "recomputed_correct": 799,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1126,
+          "recomputed_correct": 1126,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "6a0a5352e3e3a83cf3b8f9b3d9c2f72146a3534f85cc621c48781135b20ab4b6",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793184136374707621
+      ]
+    },
+    {
+      "epoch": 145,
+      "test_loss": 5.06069206226838,
+      "test_canonical_loss": 5.424802082186956,
+      "test_noncanonical_loss": 4.696582042349805,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 5.424802082186956,
+          "loss_sum": 54248.020821869555,
+          "correct": 1048,
+          "n": 10000,
+          "accuracy": 0.1048
+        },
+        "test_noncanonical": {
+          "loss": 4.696582042349805,
+          "loss_sum": 46965.82042349805,
+          "correct": 1119,
+          "n": 10000,
+          "accuracy": 0.1119
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T11:36:32.074535+00:00",
+      "elapsed_seconds": 3.74,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1048,
+          "recomputed_correct": 1048,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1119,
+          "recomputed_correct": 1119,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "66eb75fb522164a13f47351018b49b07047156ef0bc17ee1a746357f7539b2b3",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793187365481491085
+      ]
+    },
+    {
+      "epoch": 150,
+      "test_loss": 4.851515735680689,
+      "test_canonical_loss": 5.21669737029606,
+      "test_noncanonical_loss": 4.486334101065318,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 5.21669737029606,
+          "loss_sum": 52166.973702960604,
+          "correct": 996,
+          "n": 10000,
+          "accuracy": 0.0996
+        },
+        "test_noncanonical": {
+          "loss": 4.486334101065318,
+          "loss_sum": 44863.34101065318,
+          "correct": 1090,
+          "n": 10000,
+          "accuracy": 0.109
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T12:30:18.285693+00:00",
+      "elapsed_seconds": 3.68,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 996,
+          "recomputed_correct": 996,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1090,
+          "recomputed_correct": 1090,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "fdac7989c134a7109aacd2ac79b309036164b4523fe0c31cdde020c0f9804e9d",
+      "fingerprint": [
+        66306,
+        43384914,
+        490718202,
+        1793190586625572249
+      ]
+    },
+    {
+      "epoch": 155,
+      "test_loss": 4.628008850028215,
+      "test_canonical_loss": 4.793705355006679,
+      "test_noncanonical_loss": 4.462312345049751,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 4.793705355006679,
+          "loss_sum": 47937.05355006679,
+          "correct": 1199,
+          "n": 10000,
+          "accuracy": 0.1199
+        },
+        "test_noncanonical": {
+          "loss": 4.462312345049751,
+          "loss_sum": 44623.123450497515,
+          "correct": 1056,
+          "n": 10000,
+          "accuracy": 0.1056
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T13:23:33.026126+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1199,
+          "recomputed_correct": 1199,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1056,
+          "recomputed_correct": 1056,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "c3330675b1a569233dd9b977622cf21cb69af8a1612eff0e003dac18812954d0",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793193781527517937
+      ]
+    },
+    {
+      "epoch": 160,
+      "test_loss": 4.513125509616614,
+      "test_canonical_loss": 4.596782767518327,
+      "test_noncanonical_loss": 4.429468251714902,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 4.596782767518327,
+          "loss_sum": 45967.827675183275,
+          "correct": 1389,
+          "n": 10000,
+          "accuracy": 0.1389
+        },
+        "test_noncanonical": {
+          "loss": 4.429468251714902,
+          "loss_sum": 44294.68251714902,
+          "correct": 1049,
+          "n": 10000,
+          "accuracy": 0.1049
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T14:16:47.677439+00:00",
+      "elapsed_seconds": 3.78,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1389,
+          "recomputed_correct": 1389,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1049,
+          "recomputed_correct": 1049,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "55d45f0381650f957371ba04d77fd3bf381f6aef39bd2a9b566a5e15e7f67176",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793196973664893712
+      ]
+    },
+    {
+      "epoch": 165,
+      "test_loss": 4.4640369928662755,
+      "test_canonical_loss": 4.353220818073861,
+      "test_noncanonical_loss": 4.574853167658689,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 4.353220818073861,
+          "loss_sum": 43532.20818073861,
+          "correct": 1622,
+          "n": 10000,
+          "accuracy": 0.1622
+        },
+        "test_noncanonical": {
+          "loss": 4.574853167658689,
+          "loss_sum": 45748.53167658689,
+          "correct": 1017,
+          "n": 10000,
+          "accuracy": 0.1017
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T15:10:05.231081+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1622,
+          "recomputed_correct": 1622,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1017,
+          "recomputed_correct": 1017,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "f042ba0d4ba5927d7ac01d73668344341dce93eb8a6ff7a2e23bdafb88975a96",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793200178101777344
+      ]
+    },
+    {
+      "epoch": 170,
+      "test_loss": 4.270264343692251,
+      "test_canonical_loss": 4.066205142550436,
+      "test_noncanonical_loss": 4.474323544834065,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 4.066205142550436,
+          "loss_sum": 40662.05142550437,
+          "correct": 1900,
+          "n": 10000,
+          "accuracy": 0.19
+        },
+        "test_noncanonical": {
+          "loss": 4.474323544834065,
+          "loss_sum": 44743.23544834065,
+          "correct": 1009,
+          "n": 10000,
+          "accuracy": 0.1009
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T16:03:22.275413+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1900,
+          "recomputed_correct": 1900,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1009,
+          "recomputed_correct": 1009,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "829e15c1beb74f2e1b7fdc0f66d9c2ee6a8d74a239f8935967b3c5c27aa240b7",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793203390465999876
+      ]
+    },
+    {
+      "epoch": 175,
+      "test_loss": 4.254184164681641,
+      "test_canonical_loss": 4.055855500806928,
+      "test_noncanonical_loss": 4.452512828556355,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 4.055855500806928,
+          "loss_sum": 40558.55500806928,
+          "correct": 1699,
+          "n": 10000,
+          "accuracy": 0.1699
+        },
+        "test_noncanonical": {
+          "loss": 4.452512828556355,
+          "loss_sum": 44525.12828556355,
+          "correct": 948,
+          "n": 10000,
+          "accuracy": 0.0948
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T16:57:10.359740+00:00",
+      "elapsed_seconds": 3.87,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1699,
+          "recomputed_correct": 1699,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 948,
+          "recomputed_correct": 948,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "2385e79e0734e5f1603addd43855858f214f0e92d067dc873135a1ad7a9b27e9",
+      "fingerprint": [
+        66306,
+        43384914,
+        490718202,
+        1793206594917586735
+      ]
+    },
+    {
+      "epoch": 180,
+      "test_loss": 4.27816570316563,
+      "test_canonical_loss": 3.9847188118078636,
+      "test_noncanonical_loss": 4.571612594523398,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.9847188118078636,
+          "loss_sum": 39847.18811807864,
+          "correct": 1823,
+          "n": 10000,
+          "accuracy": 0.1823
+        },
+        "test_noncanonical": {
+          "loss": 4.571612594523398,
+          "loss_sum": 45716.12594523397,
+          "correct": 888,
+          "n": 10000,
+          "accuracy": 0.0888
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T17:50:27.272439+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1823,
+          "recomputed_correct": 1823,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 888,
+          "recomputed_correct": 888,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "196b0c73aba3e7aef6f0e07bfdc8a7eb85feb0dc455b1bbd293b5fc40392ecf7",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793209796449563173
+      ]
+    },
+    {
+      "epoch": 185,
+      "test_loss": 4.31789936516476,
+      "test_canonical_loss": 3.9916687344846578,
+      "test_noncanonical_loss": 4.644129995844862,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.9916687344846578,
+          "loss_sum": 39916.68734484658,
+          "correct": 1912,
+          "n": 10000,
+          "accuracy": 0.1912
+        },
+        "test_noncanonical": {
+          "loss": 4.644129995844862,
+          "loss_sum": 46441.299958448624,
+          "correct": 938,
+          "n": 10000,
+          "accuracy": 0.0938
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T18:43:44.324746+00:00",
+      "elapsed_seconds": 3.71,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1912,
+          "recomputed_correct": 1912,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 938,
+          "recomputed_correct": 938,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "a829db15f0f55c3790cdcb2795ce9936616ab2ef6cabf1f9d5411862629b38c0",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793213006356005110
+      ]
+    },
+    {
+      "epoch": 190,
+      "test_loss": 4.193401324874917,
+      "test_canonical_loss": 3.784179886428239,
+      "test_noncanonical_loss": 4.6026227633215955,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.784179886428239,
+          "loss_sum": 37841.79886428239,
+          "correct": 2130,
+          "n": 10000,
+          "accuracy": 0.213
+        },
+        "test_noncanonical": {
+          "loss": 4.6026227633215955,
+          "loss_sum": 46026.22763321595,
+          "correct": 917,
+          "n": 10000,
+          "accuracy": 0.0917
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T19:37:01.269644+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2130,
+          "recomputed_correct": 2130,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 917,
+          "recomputed_correct": 917,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "82d7207a85711763fd8653302bee9494db2c752a5708e9a133aa4b3d97d4f152",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793216204106688097
+      ]
+    },
+    {
+      "epoch": 195,
+      "test_loss": 4.234489341670541,
+      "test_canonical_loss": 3.6932159922781533,
+      "test_noncanonical_loss": 4.775762691062927,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.6932159922781533,
+          "loss_sum": 36932.15992278153,
+          "correct": 2263,
+          "n": 10000,
+          "accuracy": 0.2263
+        },
+        "test_noncanonical": {
+          "loss": 4.775762691062927,
+          "loss_sum": 47757.626910629275,
+          "correct": 859,
+          "n": 10000,
+          "accuracy": 0.0859
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T20:29:47.049973+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2263,
+          "recomputed_correct": 2263,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 859,
+          "recomputed_correct": 859,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "daa60ae9e9f0c266223b607f334349024f3437a5c5c7f50b2c7a167216e339cd",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793219361430235813
+      ]
+    },
+    {
+      "epoch": 200,
+      "test_loss": 4.17049888556629,
+      "test_canonical_loss": 3.6412613772235294,
+      "test_noncanonical_loss": 4.699736393909052,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.6412613772235294,
+          "loss_sum": 36412.613772235294,
+          "correct": 2365,
+          "n": 10000,
+          "accuracy": 0.2365
+        },
+        "test_noncanonical": {
+          "loss": 4.699736393909052,
+          "loss_sum": 46997.363939090515,
+          "correct": 950,
+          "n": 10000,
+          "accuracy": 0.095
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T21:22:03.989640+00:00",
+      "elapsed_seconds": 3.71,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2365,
+          "recomputed_correct": 2365,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 950,
+          "recomputed_correct": 950,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "37c54b7a8aa204211d0fb6a381f396dfe9fc7c8123d40c89330170f696700cdf",
+      "fingerprint": [
+        66306,
+        43384914,
+        490718202,
+        1793222506893766837
+      ]
+    },
+    {
+      "epoch": 205,
+      "test_loss": 4.368443202598903,
+      "test_canonical_loss": 3.8847086704706024,
+      "test_noncanonical_loss": 4.852177734727204,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.8847086704706024,
+          "loss_sum": 38847.086704706024,
+          "correct": 1988,
+          "n": 10000,
+          "accuracy": 0.1988
+        },
+        "test_noncanonical": {
+          "loss": 4.852177734727204,
+          "loss_sum": 48521.77734727204,
+          "correct": 924,
+          "n": 10000,
+          "accuracy": 0.0924
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T22:13:51.652365+00:00",
+      "elapsed_seconds": 3.69,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 1988,
+          "recomputed_correct": 1988,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 924,
+          "recomputed_correct": 924,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "be94ad8c4167d6b249d7532cba1927b4eb8616d2a49d7014026d44914a758222",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793225596177033854
+      ]
+    },
+    {
+      "epoch": 210,
+      "test_loss": 4.098573325301585,
+      "test_canonical_loss": 3.4474718514289475,
+      "test_noncanonical_loss": 4.749674799174222,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.4474718514289475,
+          "loss_sum": 34474.718514289474,
+          "correct": 2566,
+          "n": 10000,
+          "accuracy": 0.2566
+        },
+        "test_noncanonical": {
+          "loss": 4.749674799174222,
+          "loss_sum": 47496.74799174222,
+          "correct": 907,
+          "n": 10000,
+          "accuracy": 0.0907
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T23:05:08.417776+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2566,
+          "recomputed_correct": 2566,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 907,
+          "recomputed_correct": 907,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "5f2c8623f57ba8c00fd70c19138cb61fce15288cdaa4901396ce58cc291e957e",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793228699111845836
+      ]
+    },
+    {
+      "epoch": 215,
+      "test_loss": 4.146041250598239,
+      "test_canonical_loss": 3.3997348656946924,
+      "test_noncanonical_loss": 4.892347635501786,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.3997348656946924,
+          "loss_sum": 33997.348656946924,
+          "correct": 2722,
+          "n": 10000,
+          "accuracy": 0.2722
+        },
+        "test_noncanonical": {
+          "loss": 4.892347635501786,
+          "loss_sum": 48923.47635501786,
+          "correct": 868,
+          "n": 10000,
+          "accuracy": 0.0868
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-28T23:57:53.435350+00:00",
+      "elapsed_seconds": 3.74,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2722,
+          "recomputed_correct": 2722,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 868,
+          "recomputed_correct": 868,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "c384688bd86ee22b75f098ae2ffc582e87c3c8f3cc38bcb76cb1640edc22ca65",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793231840626190182
+      ]
+    },
+    {
+      "epoch": 220,
+      "test_loss": 4.2878963564893695,
+      "test_canonical_loss": 3.5106219443452886,
+      "test_noncanonical_loss": 5.0651707686334495,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.5106219443452886,
+          "loss_sum": 35106.21944345289,
+          "correct": 2777,
+          "n": 10000,
+          "accuracy": 0.2777
+        },
+        "test_noncanonical": {
+          "loss": 5.0651707686334495,
+          "loss_sum": 50651.7076863345,
+          "correct": 837,
+          "n": 10000,
+          "accuracy": 0.0837
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T00:50:07.901680+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2777,
+          "recomputed_correct": 2777,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 837,
+          "recomputed_correct": 837,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "9fd1d44c909d8ab0f2c707273c310ada7e2a7f2b6bca318db15177f21e077fae",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793234991309919538
+      ]
+    },
+    {
+      "epoch": 225,
+      "test_loss": 4.307008604337585,
+      "test_canonical_loss": 3.5754030390751925,
+      "test_noncanonical_loss": 5.0386141695999775,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.5754030390751925,
+          "loss_sum": 35754.03039075193,
+          "correct": 2513,
+          "n": 10000,
+          "accuracy": 0.2513
+        },
+        "test_noncanonical": {
+          "loss": 5.0386141695999775,
+          "loss_sum": 50386.14169599977,
+          "correct": 890,
+          "n": 10000,
+          "accuracy": 0.089
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T01:42:54.653716+00:00",
+      "elapsed_seconds": 3.74,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2513,
+          "recomputed_correct": 2513,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 890,
+          "recomputed_correct": 890,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "b443caa2c558cfe6ae6929d19dd7d592f97e49fd708f51ead8385d6e27c21518",
+      "fingerprint": [
+        66306,
+        43384914,
+        490718202,
+        1793238146965418984
+      ]
+    },
+    {
+      "epoch": 230,
+      "test_loss": 4.354696849602129,
+      "test_canonical_loss": 3.5198472649548886,
+      "test_noncanonical_loss": 5.189546434249368,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.5198472649548886,
+          "loss_sum": 35198.47264954889,
+          "correct": 2924,
+          "n": 10000,
+          "accuracy": 0.2924
+        },
+        "test_noncanonical": {
+          "loss": 5.189546434249368,
+          "loss_sum": 51895.46434249368,
+          "correct": 871,
+          "n": 10000,
+          "accuracy": 0.0871
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T02:35:38.652495+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2924,
+          "recomputed_correct": 2924,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 871,
+          "recomputed_correct": 871,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "8fb32e4aa8d1169a71e8c06a5799e6c4fa8e70ff3f9ff0d746c126de45279678",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793241307029249484
+      ]
+    },
+    {
+      "epoch": 235,
+      "test_loss": 4.314916284211884,
+      "test_canonical_loss": 3.533239563601675,
+      "test_noncanonical_loss": 5.096593004822092,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.533239563601675,
+          "loss_sum": 35332.39563601675,
+          "correct": 2729,
+          "n": 10000,
+          "accuracy": 0.2729
+        },
+        "test_noncanonical": {
+          "loss": 5.096593004822092,
+          "loss_sum": 50965.93004822092,
+          "correct": 893,
+          "n": 10000,
+          "accuracy": 0.0893
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T03:28:25.919040+00:00",
+      "elapsed_seconds": 3.75,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2729,
+          "recomputed_correct": 2729,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 893,
+          "recomputed_correct": 893,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "c349bf2ce3454d04a59e407fb8bee42fe260f3fa0f41a33ad3bc17b0ba872075",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793244476174055529
+      ]
+    },
+    {
+      "epoch": 240,
+      "test_loss": 4.3628739190111325,
+      "test_canonical_loss": 3.6359569450609874,
+      "test_noncanonical_loss": 5.089790892961278,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.6359569450609874,
+          "loss_sum": 36359.56945060987,
+          "correct": 2597,
+          "n": 10000,
+          "accuracy": 0.2597
+        },
+        "test_noncanonical": {
+          "loss": 5.089790892961278,
+          "loss_sum": 50897.90892961278,
+          "correct": 857,
+          "n": 10000,
+          "accuracy": 0.0857
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T04:21:13.190169+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2597,
+          "recomputed_correct": 2597,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 857,
+          "recomputed_correct": 857,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "eee4c4cff91329d5577ff7dde4234eb8bb324babba666b96db9dcb3e96dbc4a1",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793247658112614032
+      ]
+    },
+    {
+      "epoch": 245,
+      "test_loss": 3.821537971714075,
+      "test_canonical_loss": 3.2068931503913016,
+      "test_noncanonical_loss": 4.436182793036848,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.2068931503913016,
+          "loss_sum": 32068.931503913016,
+          "correct": 3036,
+          "n": 10000,
+          "accuracy": 0.3036
+        },
+        "test_noncanonical": {
+          "loss": 4.436182793036848,
+          "loss_sum": 44361.82793036848,
+          "correct": 834,
+          "n": 10000,
+          "accuracy": 0.0834
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T05:14:58.941788+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3036,
+          "recomputed_correct": 3036,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 834,
+          "recomputed_correct": 834,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "49f2083e3ef28569ffbea833bf5f1e11b389a0dee08fa28337b9277fe1d88e6f",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793250863530808740
+      ]
+    },
+    {
+      "epoch": 250,
+      "test_loss": 3.9405949465027543,
+      "test_canonical_loss": 3.3070061442991014,
+      "test_noncanonical_loss": 4.574183748706407,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.3070061442991014,
+          "loss_sum": 33070.06144299101,
+          "correct": 2909,
+          "n": 10000,
+          "accuracy": 0.2909
+        },
+        "test_noncanonical": {
+          "loss": 4.574183748706407,
+          "loss_sum": 45741.83748706407,
+          "correct": 937,
+          "n": 10000,
+          "accuracy": 0.0937
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T06:08:15.306280+00:00",
+      "elapsed_seconds": 3.74,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 2909,
+          "recomputed_correct": 2909,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 937,
+          "recomputed_correct": 937,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "345e86caac2953364f58ef94eef37bf6cb49d8875a8cd863ef1869edf205f6f8",
+      "fingerprint": [
+        66306,
+        43384914,
+        490718202,
+        1793254069217322514
+      ]
+    },
+    {
+      "epoch": 255,
+      "test_loss": 4.057110316850451,
+      "test_canonical_loss": 3.3944092848041976,
+      "test_noncanonical_loss": 4.719811348896706,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.3944092848041976,
+          "loss_sum": 33944.092848041975,
+          "correct": 3046,
+          "n": 10000,
+          "accuracy": 0.3046
+        },
+        "test_noncanonical": {
+          "loss": 4.719811348896706,
+          "loss_sum": 47198.113488967065,
+          "correct": 1027,
+          "n": 10000,
+          "accuracy": 0.1027
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T07:01:31.007934+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3046,
+          "recomputed_correct": 3046,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1027,
+          "recomputed_correct": 1027,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "447db13edc23f2e4346643f13a632b33d275193dd79af62c732c397e0006f33b",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793257256439457815
+      ]
+    },
+    {
+      "epoch": 260,
+      "test_loss": 3.9993930077142634,
+      "test_canonical_loss": 2.983931467894353,
+      "test_noncanonical_loss": 5.014854547534173,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 2.983931467894353,
+          "loss_sum": 29839.31467894353,
+          "correct": 3827,
+          "n": 10000,
+          "accuracy": 0.3827
+        },
+        "test_noncanonical": {
+          "loss": 5.014854547534173,
+          "loss_sum": 50148.545475341736,
+          "correct": 935,
+          "n": 10000,
+          "accuracy": 0.0935
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T07:54:16.949906+00:00",
+      "elapsed_seconds": 3.71,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3827,
+          "recomputed_correct": 3827,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 935,
+          "recomputed_correct": 935,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "3c9a56a5eb86af1432fe419c74068c7d1ee0027d3e4f65d96d0e05d009e7975e",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793260422967022161
+      ]
+    },
+    {
+      "epoch": 265,
+      "test_loss": 4.078185851690638,
+      "test_canonical_loss": 3.10303564438354,
+      "test_noncanonical_loss": 5.053336058997737,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.10303564438354,
+          "loss_sum": 31030.3564438354,
+          "correct": 3570,
+          "n": 10000,
+          "accuracy": 0.357
+        },
+        "test_noncanonical": {
+          "loss": 5.053336058997737,
+          "loss_sum": 50533.36058997737,
+          "correct": 947,
+          "n": 10000,
+          "accuracy": 0.0947
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T08:46:33.783350+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3570,
+          "recomputed_correct": 3570,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 947,
+          "recomputed_correct": 947,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "2432788fffd6d4ef7a7054ce77e2e3f5383e7c0bc12828bc2a29b3049b513ea4",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793263586818805222
+      ]
+    },
+    {
+      "epoch": 270,
+      "test_loss": 4.115706768867041,
+      "test_canonical_loss": 3.2875529923834357,
+      "test_noncanonical_loss": 4.943860545350646,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.2875529923834357,
+          "loss_sum": 32875.52992383436,
+          "correct": 3292,
+          "n": 10000,
+          "accuracy": 0.3292
+        },
+        "test_noncanonical": {
+          "loss": 4.943860545350646,
+          "loss_sum": 49438.60545350646,
+          "correct": 1027,
+          "n": 10000,
+          "accuracy": 0.1027
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T09:39:20.404304+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3292,
+          "recomputed_correct": 3292,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1027,
+          "recomputed_correct": 1027,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "b22dcc9d4b29c63825829d2870870758b79d0e6208896abc61bd784268ce8649",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793266751624437957
+      ]
+    },
+    {
+      "epoch": 275,
+      "test_loss": 4.119548991343124,
+      "test_canonical_loss": 3.3218573777594,
+      "test_noncanonical_loss": 4.917240604926848,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.3218573777594,
+          "loss_sum": 33218.573777594,
+          "correct": 3398,
+          "n": 10000,
+          "accuracy": 0.3398
+        },
+        "test_noncanonical": {
+          "loss": 4.917240604926848,
+          "loss_sum": 49172.40604926848,
+          "correct": 1047,
+          "n": 10000,
+          "accuracy": 0.1047
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T10:32:07.151019+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3398,
+          "recomputed_correct": 3398,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1047,
+          "recomputed_correct": 1047,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "e07cd8709d4009cff67d8e8b29518044e8172ab704c1f9ebea3cf03d5c428772",
+      "fingerprint": [
+        66306,
+        43384914,
+        490718202,
+        1793269900818307193
+      ]
+    },
+    {
+      "epoch": 280,
+      "test_loss": 3.9751994074574024,
+      "test_canonical_loss": 3.0712713480027825,
+      "test_noncanonical_loss": 4.8791274669120215,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.0712713480027825,
+          "loss_sum": 30712.713480027825,
+          "correct": 3482,
+          "n": 10000,
+          "accuracy": 0.3482
+        },
+        "test_noncanonical": {
+          "loss": 4.8791274669120215,
+          "loss_sum": 48791.27466912022,
+          "correct": 1019,
+          "n": 10000,
+          "accuracy": 0.1019
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T11:24:22.281893+00:00",
+      "elapsed_seconds": 3.71,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3482,
+          "recomputed_correct": 3482,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1019,
+          "recomputed_correct": 1019,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "0417e539b7b8e73f3ec9997d6d2e6026d93c1fc5c6ef91fe608ea7c4e809f5fb",
+      "fingerprint": [
+        66306,
+        43384917,
+        490718202,
+        1793273043704356315
+      ]
+    },
+    {
+      "epoch": 285,
+      "test_loss": 4.078982749003649,
+      "test_canonical_loss": 3.1104091514531333,
+      "test_noncanonical_loss": 5.047556346554166,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.1104091514531333,
+          "loss_sum": 31104.091514531334,
+          "correct": 3718,
+          "n": 10000,
+          "accuracy": 0.3718
+        },
+        "test_noncanonical": {
+          "loss": 5.047556346554166,
+          "loss_sum": 50475.56346554166,
+          "correct": 1073,
+          "n": 10000,
+          "accuracy": 0.1073
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T12:17:08.843038+00:00",
+      "elapsed_seconds": 3.71,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3718,
+          "recomputed_correct": 3718,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1073,
+          "recomputed_correct": 1073,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "fbc3e60ae12f14df0efa265a2d7c5bd6ff454a90c4ca627c6fc9fa4dda57b59d",
+      "fingerprint": [
+        66306,
+        43384916,
+        490718202,
+        1793276203777694964
+      ]
+    },
+    {
+      "epoch": 290,
+      "test_loss": 4.03864206345427,
+      "test_canonical_loss": 2.9713697449714376,
+      "test_noncanonical_loss": 5.105914381937101,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 2.9713697449714376,
+          "loss_sum": 29713.697449714375,
+          "correct": 3849,
+          "n": 10000,
+          "accuracy": 0.3849
+        },
+        "test_noncanonical": {
+          "loss": 5.105914381937101,
+          "loss_sum": 51059.143819371006,
+          "correct": 947,
+          "n": 10000,
+          "accuracy": 0.0947
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T13:09:55.695471+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3849,
+          "recomputed_correct": 3849,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 947,
+          "recomputed_correct": 947,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "bc54b33ec4109bc331bca024b0326aacde5949c9434fe8422682643a70b58ca0",
+      "fingerprint": [
+        66306,
+        43384915,
+        490718202,
+        1793279377871878204
+      ]
+    },
+    {
+      "epoch": 295,
+      "test_loss": 4.267053981100969,
+      "test_canonical_loss": 3.3334157928335233,
+      "test_noncanonical_loss": 5.200692169368415,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.3334157928335233,
+          "loss_sum": 33334.15792833523,
+          "correct": 3578,
+          "n": 10000,
+          "accuracy": 0.3578
+        },
+        "test_noncanonical": {
+          "loss": 5.200692169368415,
+          "loss_sum": 52006.921693684155,
+          "correct": 1163,
+          "n": 10000,
+          "accuracy": 0.1163
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T14:02:13.126359+00:00",
+      "elapsed_seconds": 3.71,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3578,
+          "recomputed_correct": 3578,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1163,
+          "recomputed_correct": 1163,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "fd1e1e915d388cbaae9d1b3c66085b71490e3b3e3a47d9bc8e084a4d5d75d32c",
+      "fingerprint": [
+        66306,
+        43384918,
+        490718202,
+        1793282517026244353
+      ]
+    },
+    {
+      "epoch": 300,
+      "test_loss": 4.297839574745955,
+      "test_canonical_loss": 3.4052774489630524,
+      "test_noncanonical_loss": 5.190401700528857,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.4052774489630524,
+          "loss_sum": 34052.77448963052,
+          "correct": 3419,
+          "n": 10000,
+          "accuracy": 0.3419
+        },
+        "test_noncanonical": {
+          "loss": 5.190401700528857,
+          "loss_sum": 51904.017005288566,
+          "correct": 1039,
+          "n": 10000,
+          "accuracy": 0.1039
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T14:53:58.072018+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3419,
+          "recomputed_correct": 3419,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1039,
+          "recomputed_correct": 1039,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "19eae934d0009d65a0bca26fcb097ccf81480d5b16c9c4a54f9c4060babfd6b7",
+      "fingerprint": [
+        66306,
+        43384996,
+        490718202,
+        1793285628235445440
+      ]
+    },
+    {
+      "epoch": 305,
+      "test_loss": 4.3332470322847625,
+      "test_canonical_loss": 3.340051347361696,
+      "test_noncanonical_loss": 5.326442717207828,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.340051347361696,
+          "loss_sum": 33400.513473616964,
+          "correct": 3732,
+          "n": 10000,
+          "accuracy": 0.3732
+        },
+        "test_noncanonical": {
+          "loss": 5.326442717207828,
+          "loss_sum": 53264.427172078285,
+          "correct": 1063,
+          "n": 10000,
+          "accuracy": 0.1063
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T15:46:15.231112+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3732,
+          "recomputed_correct": 3732,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1063,
+          "recomputed_correct": 1063,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "966a20250f33e48e99ebd44b83c74436bfb7c78fe833a087ec648fe53dcb9b46",
+      "fingerprint": [
+        66306,
+        43415789,
+        490718202,
+        1793288750602834820
+      ]
+    },
+    {
+      "epoch": 310,
+      "test_loss": 4.298132357314257,
+      "test_canonical_loss": 3.325916015509317,
+      "test_noncanonical_loss": 5.270348699119198,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.325916015509317,
+          "loss_sum": 33259.16015509317,
+          "correct": 3654,
+          "n": 10000,
+          "accuracy": 0.3654
+        },
+        "test_noncanonical": {
+          "loss": 5.270348699119198,
+          "loss_sum": 52703.48699119198,
+          "correct": 1171,
+          "n": 10000,
+          "accuracy": 0.1171
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T16:38:00.199236+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3654,
+          "recomputed_correct": 3654,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1171,
+          "recomputed_correct": 1171,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "39f7b61797d478c96743069ba0f35fe68d83ddd4d8b9eb5a16bc10e02524dd66",
+      "fingerprint": [
+        66306,
+        43415767,
+        490718202,
+        1793291863365198802
+      ]
+    },
+    {
+      "epoch": 315,
+      "test_loss": 4.177717455900526,
+      "test_canonical_loss": 3.1025405763107896,
+      "test_noncanonical_loss": 5.252894335490262,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.1025405763107896,
+          "loss_sum": 31025.405763107894,
+          "correct": 3743,
+          "n": 10000,
+          "accuracy": 0.3743
+        },
+        "test_noncanonical": {
+          "loss": 5.252894335490262,
+          "loss_sum": 52528.94335490262,
+          "correct": 1086,
+          "n": 10000,
+          "accuracy": 0.1086
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T17:30:16.446800+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3743,
+          "recomputed_correct": 3743,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1086,
+          "recomputed_correct": 1086,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "a99b5552abd3e493c430d895fa134dcc1ba5eb934bf0c147446345a0d7873eec",
+      "fingerprint": [
+        66306,
+        43386697,
+        490718202,
+        1793294981554923118
+      ]
+    },
+    {
+      "epoch": 320,
+      "test_loss": 4.204053578073066,
+      "test_canonical_loss": 3.1912569319494413,
+      "test_noncanonical_loss": 5.2168502241966905,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.1912569319494413,
+          "loss_sum": 31912.56931949441,
+          "correct": 3653,
+          "n": 10000,
+          "accuracy": 0.3653
+        },
+        "test_noncanonical": {
+          "loss": 5.2168502241966905,
+          "loss_sum": 52168.502241966904,
+          "correct": 1060,
+          "n": 10000,
+          "accuracy": 0.106
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T18:22:01.925488+00:00",
+      "elapsed_seconds": 3.7,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3653,
+          "recomputed_correct": 3653,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1060,
+          "recomputed_correct": 1060,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "78d0fe3a3c15ebc98193e253747fb0cb8d2c2d8b237708cfbeaeb1755897d69f",
+      "fingerprint": [
+        66306,
+        43415767,
+        490718202,
+        1793298111230757066
+      ]
+    },
+    {
+      "epoch": 325,
+      "test_loss": 4.254449969632775,
+      "test_canonical_loss": 3.2032422962637828,
+      "test_noncanonical_loss": 5.305657643001768,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.2032422962637828,
+          "loss_sum": 32032.422962637826,
+          "correct": 3634,
+          "n": 10000,
+          "accuracy": 0.3634
+        },
+        "test_noncanonical": {
+          "loss": 5.305657643001768,
+          "loss_sum": 53056.57643001768,
+          "correct": 1054,
+          "n": 10000,
+          "accuracy": 0.1054
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T19:14:17.189992+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3634,
+          "recomputed_correct": 3634,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1054,
+          "recomputed_correct": 1054,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "2342cfb082d3ae1cafac07e9a8a85efaf31773fd4f377dbd28a7a5b3a763a547",
+      "fingerprint": [
+        66306,
+        43416704,
+        490718202,
+        1793301245994521616
+      ]
+    },
+    {
+      "epoch": 330,
+      "test_loss": 4.398659039898257,
+      "test_canonical_loss": 3.53859483930658,
+      "test_noncanonical_loss": 5.258723240489934,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.53859483930658,
+          "loss_sum": 35385.9483930658,
+          "correct": 3157,
+          "n": 10000,
+          "accuracy": 0.3157
+        },
+        "test_noncanonical": {
+          "loss": 5.258723240489934,
+          "loss_sum": 52587.23240489933,
+          "correct": 1212,
+          "n": 10000,
+          "accuracy": 0.1212
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T20:06:32.697612+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3157,
+          "recomputed_correct": 3157,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1212,
+          "recomputed_correct": 1212,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "616a86854b89e567dab2431709db7e69ea7432ca17914b2615a4664b1906c797",
+      "fingerprint": [
+        66306,
+        43415769,
+        490718202,
+        1793304374402261198
+      ]
+    },
+    {
+      "epoch": 335,
+      "test_loss": 4.522059709076905,
+      "test_canonical_loss": 3.474324159166729,
+      "test_noncanonical_loss": 5.569795258987082,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.474324159166729,
+          "loss_sum": 34743.24159166729,
+          "correct": 3564,
+          "n": 10000,
+          "accuracy": 0.3564
+        },
+        "test_noncanonical": {
+          "loss": 5.569795258987082,
+          "loss_sum": 55697.952589870816,
+          "correct": 1055,
+          "n": 10000,
+          "accuracy": 0.1055
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T20:58:48.248781+00:00",
+      "elapsed_seconds": 3.72,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3564,
+          "recomputed_correct": 3564,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1055,
+          "recomputed_correct": 1055,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "6417fdfcceb36898897418a95fb639be008ae7c9439ca7d3b90060ecf6c59dd5",
+      "fingerprint": [
+        66306,
+        43415789,
+        490718202,
+        1793307501104477423
+      ]
+    },
+    {
+      "epoch": 340,
+      "test_loss": 4.3013200022973965,
+      "test_canonical_loss": 3.408504889790588,
+      "test_noncanonical_loss": 5.194135114804205,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.408504889790588,
+          "loss_sum": 34085.04889790588,
+          "correct": 3454,
+          "n": 10000,
+          "accuracy": 0.3454
+        },
+        "test_noncanonical": {
+          "loss": 5.194135114804205,
+          "loss_sum": 51941.35114804206,
+          "correct": 1197,
+          "n": 10000,
+          "accuracy": 0.1197
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T21:50:03.286336+00:00",
+      "elapsed_seconds": 3.87,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3454,
+          "recomputed_correct": 3454,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1197,
+          "recomputed_correct": 1197,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "3137ead8fe927419690e755d60d29d7f9879a749479b07228479c353690c00d8",
+      "fingerprint": [
+        66306,
+        43384860,
+        490718202,
+        1793310596889109512
+      ]
+    },
+    {
+      "epoch": 345,
+      "test_loss": 4.547397097336418,
+      "test_canonical_loss": 3.398181973499746,
+      "test_noncanonical_loss": 5.69661222117309,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.398181973499746,
+          "loss_sum": 33981.81973499746,
+          "correct": 3680,
+          "n": 10000,
+          "accuracy": 0.368
+        },
+        "test_noncanonical": {
+          "loss": 5.69661222117309,
+          "loss_sum": 56966.12221173089,
+          "correct": 1042,
+          "n": 10000,
+          "accuracy": 0.1042
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T22:41:18.200245+00:00",
+      "elapsed_seconds": 3.89,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3680,
+          "recomputed_correct": 3680,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1042,
+          "recomputed_correct": 1042,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "3822102d38574ac602bd6e8e3a1dd7c0ef858aea82fe0d126166894cfbfaf4c7",
+      "fingerprint": [
+        66306,
+        43384859,
+        490718202,
+        1793313648892050547
+      ]
+    },
+    {
+      "epoch": 350,
+      "test_loss": 4.200709877458589,
+      "test_canonical_loss": 3.1935552551853896,
+      "test_noncanonical_loss": 5.207864499731789,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.1935552551853896,
+          "loss_sum": 31935.552551853896,
+          "correct": 3764,
+          "n": 10000,
+          "accuracy": 0.3764
+        },
+        "test_noncanonical": {
+          "loss": 5.207864499731789,
+          "loss_sum": 52078.64499731789,
+          "correct": 1140,
+          "n": 10000,
+          "accuracy": 0.114
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-29T23:33:33.441050+00:00",
+      "elapsed_seconds": 3.87,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3764,
+          "recomputed_correct": 3764,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1140,
+          "recomputed_correct": 1140,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "799f6c50ac517619609611fa81083b795127e2289367f554742dde1b9179ea5e",
+      "fingerprint": [
+        66306,
+        43384857,
+        490718202,
+        1793316785421658549
+      ]
+    },
+    {
+      "epoch": 355,
+      "test_loss": 4.4171210589147165,
+      "test_canonical_loss": 3.469834707972378,
+      "test_noncanonical_loss": 5.364407409857055,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.469834707972378,
+          "loss_sum": 34698.34707972378,
+          "correct": 3415,
+          "n": 10000,
+          "accuracy": 0.3415
+        },
+        "test_noncanonical": {
+          "loss": 5.364407409857055,
+          "loss_sum": 53644.07409857055,
+          "correct": 1150,
+          "n": 10000,
+          "accuracy": 0.115
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-30T00:25:49.885901+00:00",
+      "elapsed_seconds": 3.87,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3415,
+          "recomputed_correct": 3415,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1150,
+          "recomputed_correct": 1150,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "8c100428665f0cbdb90fef1829f534d242efbf3bca3c7b40af3137fcd1f80af3",
+      "fingerprint": [
+        66306,
+        43384867,
+        490718202,
+        1793319937465154528
+      ]
+    },
+    {
+      "epoch": 360,
+      "test_loss": 4.26024746131771,
+      "test_canonical_loss": 3.242144937940442,
+      "test_noncanonical_loss": 5.278349984694978,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.242144937940442,
+          "loss_sum": 32421.44937940442,
+          "correct": 3739,
+          "n": 10000,
+          "accuracy": 0.3739
+        },
+        "test_noncanonical": {
+          "loss": 5.278349984694978,
+          "loss_sum": 52783.49984694978,
+          "correct": 1164,
+          "n": 10000,
+          "accuracy": 0.1164
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-30T01:18:36.214636+00:00",
+      "elapsed_seconds": 3.73,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3739,
+          "recomputed_correct": 3739,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1164,
+          "recomputed_correct": 1164,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "c4726e2fdb7282b8bd382b344c904fd2f22467b533d419a08e98f6f122a502f0",
+      "fingerprint": [
+        66306,
+        43384858,
+        490718202,
+        1793323108670894207
+      ]
+    },
+    {
+      "epoch": 365,
+      "test_loss": 4.580226426716012,
+      "test_canonical_loss": 3.4298464504719783,
+      "test_noncanonical_loss": 5.730606402960045,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.4298464504719783,
+          "loss_sum": 34298.464504719785,
+          "correct": 3905,
+          "n": 10000,
+          "accuracy": 0.3905
+        },
+        "test_noncanonical": {
+          "loss": 5.730606402960045,
+          "loss_sum": 57306.06402960045,
+          "correct": 1099,
+          "n": 10000,
+          "accuracy": 0.1099
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-30T02:11:52.217195+00:00",
+      "elapsed_seconds": 3.87,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3905,
+          "recomputed_correct": 3905,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1099,
+          "recomputed_correct": 1099,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "fda21d2b32ebe652b077351d79b2a4502c20695bf8f85458067aa72f7e5e2713",
+      "fingerprint": [
+        66306,
+        43384859,
+        490718202,
+        1793326286748903260
+      ]
+    },
+    {
+      "epoch": 370,
+      "test_loss": 4.438621781954277,
+      "test_canonical_loss": 3.4500356707269124,
+      "test_noncanonical_loss": 5.4272078931816425,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.4500356707269124,
+          "loss_sum": 34500.35670726912,
+          "correct": 3428,
+          "n": 10000,
+          "accuracy": 0.3428
+        },
+        "test_noncanonical": {
+          "loss": 5.4272078931816425,
+          "loss_sum": 54272.078931816424,
+          "correct": 1182,
+          "n": 10000,
+          "accuracy": 0.1182
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-30T03:04:09.055067+00:00",
+      "elapsed_seconds": 3.87,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3428,
+          "recomputed_correct": 3428,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1182,
+          "recomputed_correct": 1182,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "0549c3ae5adb2b51a149995588d599d0f3b641cb2710050a2ffe068f3bcd1cec",
+      "fingerprint": [
+        66306,
+        43384836,
+        490718202,
+        1793329431128001282
+      ]
+    },
+    {
+      "epoch": 375,
+      "test_loss": 4.411312024779318,
+      "test_canonical_loss": 3.351580112548041,
+      "test_noncanonical_loss": 5.471043937010594,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.351580112548041,
+          "loss_sum": 33515.80112548041,
+          "correct": 3543,
+          "n": 10000,
+          "accuracy": 0.3543
+        },
+        "test_noncanonical": {
+          "loss": 5.471043937010594,
+          "loss_sum": 54710.439370105945,
+          "correct": 1115,
+          "n": 10000,
+          "accuracy": 0.1115
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-30T03:56:25.658707+00:00",
+      "elapsed_seconds": 3.89,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3543,
+          "recomputed_correct": 3543,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1115,
+          "recomputed_correct": 1115,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "4543658df1980f5ddbdad184e2981d6261da4a83c3424c0156fad962c3578024",
+      "fingerprint": [
+        66306,
+        43384859,
+        490718202,
+        1793332572080479237
+      ]
+    },
+    {
+      "epoch": 380,
+      "test_loss": 4.369413239651237,
+      "test_canonical_loss": 3.2857777848487197,
+      "test_noncanonical_loss": 5.453048694453756,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 3.2857777848487197,
+          "loss_sum": 32857.777848487196,
+          "correct": 3877,
+          "n": 10000,
+          "accuracy": 0.3877
+        },
+        "test_noncanonical": {
+          "loss": 5.453048694453756,
+          "loss_sum": 54530.48694453756,
+          "correct": 1224,
+          "n": 10000,
+          "accuracy": 0.1224
+        }
+      },
+      "device": "cuda",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-30T04:48:41.538922+00:00",
+      "elapsed_seconds": 3.88,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 3877,
+          "recomputed_correct": 3877,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 1224,
+          "recomputed_correct": 1224,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "23e252558c096844f4070c1b6673c8f8739677f0772b51a6dbfffd6f905fb1a7",
+      "fingerprint": [
+        66306,
+        43384860,
+        490718202,
+        1793335713331772039
+      ]
+    }
+  ],
+  "state": "ready",
+  "updated_at": "2026-10-30T04:49:13.719501+00:00",
+  "current_checkpoint": null,
+  "current_device": "cuda",
+  "error": null
+}

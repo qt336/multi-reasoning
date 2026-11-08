@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>训练实时曲线 · dm1300 / dff2600 · Seed 2031</title>
+<style>
+:root{color-scheme:light;--ink:#182534;--muted:#68798a;--line:#e4eaf0;--blue:#2369d8;--orange:#d95d23;--purple:#8651bd;--red:#d64f67}*{box-sizing:border-box}body{margin:0;background:#f5f7fa;color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}main{max-width:1360px;margin:auto;padding:32px 30px 40px}header{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:22px}.eyebrow{font-size:12px;letter-spacing:2px;color:var(--muted);font-weight:650}h1{font-size:29px;letter-spacing:-.6px;line-height:1.3;margin:5px 0 7px}h2{font-size:17px;margin:0}p{margin:0}.muted{color:var(--muted);font-size:13px}.badge{display:inline-flex;align-items:center;gap:7px;background:#e6f3ec;color:#27744c;padding:5px 12px;border-radius:30px;font-size:13px;white-space:nowrap}.badge:before{content:"";width:7px;height:7px;background:currentColor;border-radius:50%}.badge.warn{color:#a05c11;background:#fff0d6}.badge.error{color:#ad3548;background:#ffe8ec}.right{text-align:right}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:20px 0}.card,.panel{border:1px solid var(--line);background:white;border-radius:14px}.card{padding:18px 21px}.label{font-size:13px;color:var(--muted)}.value{font-size:29px;font-weight:680;letter-spacing:-1px;line-height:1.5;font-variant-numeric:tabular-nums}.sub{font-size:12px;color:var(--muted);min-height:19px}.blue{color:var(--blue)}.orange{color:var(--orange)}.panel{padding:22px 24px;margin-top:17px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:8px}.controls{display:flex;gap:9px;align-items:center;font-size:12px;color:var(--muted)}select,button,.button{font:inherit;background:#fff;color:var(--ink);border:1px solid #d5dfe9;border-radius:7px;padding:6px 10px;text-decoration:none;cursor:pointer}button:hover,.button:hover{background:#f0f5fb}.legend{display:flex;gap:21px;flex-wrap:wrap;font-size:13px}.legend label{display:flex;align-items:center;gap:5px;cursor:pointer}.legend input{accent-color:var(--blue)}.dot{width:9px;height:9px;border-radius:50%;display:inline-block}.chart{position:relative;min-height:230px}svg{width:100%;height:auto;display:block;overflow:visible}.tip{position:absolute;display:none;pointer-events:none;background:#182534;color:#fff;padding:9px 12px;border-radius:8px;font-size:12px;z-index:3;box-shadow:0 4px 16px #18253426;min-width:160px}.tip strong{font-size:13px}.note{font-size:12px;color:var(--muted);margin-top:6px}.bottom{display:grid;grid-template-columns:1.3fr 1fr;gap:17px}.table-wrap{max-height:300px;overflow:auto}table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13px}th,td{padding:10px 7px;text-align:right;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}th{position:sticky;top:0;background:white;color:var(--muted);font-weight:500}footer{display:flex;justify-content:space-between;gap:20px;margin-top:18px;color:var(--muted);font-size:12px}.banner{padding:10px 15px;background:#fff0d6;color:#865617;border-radius:9px;margin-bottom:14px;display:none}.progress-track{height:4px;background:#e7edf5;border-radius:3px;margin-top:8px;overflow:hidden}.progress-track i{height:100%;background:var(--blue);display:block;width:0}#groupChart{min-height:210px}
+@media(max-width:800px){main{padding:20px 14px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.bottom{grid-template-columns:1fr}.panel{padding:17px 14px}.panel-head{align-items:flex-start;flex-direction:column}header{gap:10px}h1{font-size:24px}.right .muted{max-width:155px}.value{font-size:25px}footer{flex-direction:column;gap:5px}.controls{flex-wrap:wrap}}
+
+.attention-image{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line);margin-top:14px}.attention-placeholder{min-height:210px;display:flex;align-items:center;justify-content:center;background:#f6f8fb;border-radius:8px;color:var(--muted);margin-top:14px}.attention-stats{display:flex;gap:12px 24px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}.attention-stats strong{color:var(--ink);margin-left:7px;font-variant-numeric:tabular-nums}.attention-title{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.attention-title .badge{font-size:12px;padding:3px 10px}.attention-caption{margin-top:8px;font-size:12px;color:var(--muted)}.attention-image[hidden],.attention-placeholder[hidden],.attention-stats[hidden]{display:none}.attention-controls{flex-wrap:wrap}
+
+</style></head><body><main>
+<header><div><div class="eyebrow">FOUR-STEP REASONING</div><h1>训练实时曲线 · 新模型</h1><p class="muted" id="config">Seed 2031 · 正在读取实验配置…</p></div><div class="right"><span class="badge warn" id="connection">正在连接</span><p class="muted" id="updated" style="margin-top:8px">每 30 秒自动刷新</p></div></header>
+<div id="banner" class="banner" role="status"></div>
+<section class="cards" aria-label="最新训练指标">
+<div class="card"><div class="label">训练进度</div><div class="value" id="epoch">—</div><div class="sub" id="step">等待数据</div><div class="progress-track"><i id="progressBar"></i></div></div>
+<div class="card"><div class="label">训练准确率</div><div class="value blue" id="train">—</div><div class="sub" id="trainEpoch">固定训练样本</div></div>
+<div class="card"><div class="label">最新测试准确率</div><div class="value orange" id="test">—</div><div class="sub" id="testEpoch">每 5 轮评估一次</div></div>
+<div class="card"><div class="label">最佳测试准确率</div><div class="value" id="best">—</div><div class="sub" id="bestEpoch">等待数据</div></div>
+</section>
+<section class="panel"><div class="panel-head"><div><h2>训练与测试准确率</h2><p class="muted">横轴：训练轮次 · 纵轴：准确率（%）</p></div><div class="controls"><label>范围 <select id="range"><option value="all">全部轮次</option><option value="100">最近 100 轮</option><option value="30">最近 30 轮</option></select></label><label>纵轴 <select id="scale"><option value="auto">适配数据</option><option value="full">0–100%</option></select></label><button id="refresh" type="button">立即刷新</button></div></div>
+<div class="legend"><label><input type="checkbox" id="showTrain" checked><span class="dot" style="background:var(--blue)"></span>训练集</label><label><input type="checkbox" id="showTest" checked><span class="dot" style="background:var(--orange)"></span>测试集</label></div>
+<div class="chart" id="mainChart"><svg id="mainSvg" viewBox="0 0 1100 340" role="img" aria-label="训练与测试准确率曲线"></svg><div class="tip"></div></div><p class="note">训练曲线每轮新增一个点，测试曲线每 5 轮新增一个点。连线仅连接已完成的评估；没有测试数据的轮次不会填值。鼠标移到曲线上可查看数值。</p></section>
+
+<section class="panel" id="lossPanel">
+<div class="panel-head"><div><h2>训练与测试 Loss</h2><p class="muted" id="lossLatest">正在读取训练 loss…</p></div><div class="controls"><label>范围 <select id="lossRange"><option value="all">全部轮次</option><option value="100">最近 100 轮</option><option value="30">最近 30 轮</option></select></label></div></div>
+<div class="legend"><label><input type="checkbox" id="showTrainLoss" checked><i class="dot" style="background:#188579"></i>训练</label><label><input type="checkbox" id="showTestLoss" checked><i class="dot" style="background:#d95d23"></i>测试总体</label><label><input type="checkbox" id="showCanLoss" checked><i class="dot" style="background:#8651bd"></i>Canonical</label><label><input type="checkbox" id="showNoncanLoss" checked><i class="dot" style="background:#d64f67"></i>Noncanonical</label></div>
+<div class="chart" id="lossChart"><svg id="lossSvg" viewBox="0 0 1100 300" role="img" aria-label="训练及完整测试集的交叉熵 loss 曲线"></svg><div class="tip"></div></div>
+<p class="note">横轴：训练轮次 · 纵轴：交叉熵。训练 loss 是训练过程中整轮样本的平均值；测试 loss 是该轮结束后 checkpoint 在完整 20,000 条测试样本上的平均值（两组各 10,000 条）。历史仅补算仍有 checkpoint 的轮次；缺失值不填 0，跨越超过 5 轮的测试点不连线。每 30 秒刷新。</p><p class="note" id="lossEvalStatus" role="status">正在读取测试 loss…</p>
+</section>
+
+<section class="panel" id="attentionPanel">
+<div class="panel-head"><div><div class="attention-title"><h2>最近 checkpoint · 单条序列注意力</h2><span class="badge warn" id="attentionEpoch">首次生成中</span></div><p class="muted" id="attentionMeta" style="margin-top:5px">正在读取热图状态…</p></div><div class="controls attention-controls"><label>序列 <select id="attentionView"><option value="can">固定 Canonical 序列</option><option value="noncan">同题 Noncanonical 序列</option></select></label><label>层 <select id="attentionLayer"><option value="all">三层总览</option><option value="1">第一层</option><option value="2">第二层</option><option value="3">第三层</option></select></label><a class="button" id="attentionOpen" target="_blank" rel="noopener" hidden>打开原图</a></div></div>
+<div class="attention-placeholder" id="attentionPlaceholder" role="status">最新 checkpoint 的热图正在生成，完成后自动显示。</div>
+<a id="attentionImageLink" target="_blank" rel="noopener"><img class="attention-image" id="attentionImage" alt="最新 checkpoint 的三层注意力热图" hidden></a>
+<p class="attention-caption" id="attentionTokens" style="font-family:monospace;overflow-wrap:anywhere"></p>
+<p class="attention-caption" id="attentionCaption">每张热图仅对应一条固定测试序列；新 checkpoint 保存后自动更新。使用连续蓝色色阶，色条标注实际百分比及 15% 参考刻度。</p>
+<p class="note">坐标为“位置:token 值”；(1,2)、(3,4)…是事实的 source 与 destination，第 31 位为 query。F1–F4 标出四步链路；青色方框标出链路 destination 在最终 query 行的位置。</p>
+</section>
+
+<div class="bottom"><section class="panel"><div class="panel-head"><h2>两类测试顺序</h2></div><div class="legend"><span><i class="dot" style="background:var(--purple)"></i> Canonical</span><span><i class="dot" style="background:var(--red)"></i> Noncanonical</span></div><div class="chart" id="groupChart"><svg id="groupSvg" viewBox="0 0 700 285" role="img" aria-label="Canonical 与 Noncanonical 测试准确率曲线"></svg><div class="tip"></div></div></section>
+<section class="panel"><div class="panel-head"><h2>最近测试记录</h2><a class="button" href="/accuracy.csv" download="accuracy_seed2031_dm1300_dff2600.csv">下载 CSV</a></div><div class="table-wrap"><table><thead><tr><th>轮次</th><th>训练</th><th>测试</th><th>Canonical</th><th>Noncan.</th></tr></thead><tbody id="testRows"></tbody></table></div></section></div>
+<footer><span id="details">正在读取运行状态…</span><span>数据时间均为北京时间 / 香港时间（UTC+8）</span></footer>
+</main><script>
+'use strict';
+let data=null,loading=false;
+const $=id=>document.getElementById(id),pct=n=>n==null?'—':(n*100).toFixed(2)+'%';
+const clock=t=>new Date(t).toLocaleString('zh-CN',{timeZone:'Asia/Hong_Kong',hour12:false});
+const ns='http://www.w3.org/2000/svg';
+function el(tag,attrs,text){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs||{}))e.setAttribute(k,v);if(text!==undefined)e.textContent=text;return e}
+function line(svg,x1,y1,x2,y2,stroke,width=1){svg.append(el('line',{x1,y1,x2,y2,stroke,'stroke-width':width}))}
+function chart(svgId,containerId,series,width,height,options={}){
+ const svg=$(svgId),box=$(containerId),tip=box.querySelector('.tip');svg.replaceChildren();tip.style.display='none';
+ const factor=options.loss?1:100,format=options.loss?n=>n==null?'—':Number(n).toFixed(4):pct;
+ const limit=$(options.rangeId||'range').value,end=data.latest_train.epoch,start=limit==='all'?0:Math.max(0,end-Number(limit));
+ const rows=data.history.filter(r=>r.epoch>=start),left=54,right=19,top=20,bottom=35,pw=width-left-right,ph=height-top-bottom;
+ let max=0;for(const s of series)for(const r of rows)if(r[s.key]!=null)max=Math.max(max,r[s.key]*factor);
+ const magnitude=Math.pow(10,Math.floor(Math.log10(Math.max(max*1.08,0.0001))));
+ const ymax=options.loss?(max>0?Math.ceil(max*1.08/(magnitude/2))*(magnitude/2):1):$('scale').value==='full'?100:Math.max(10,Math.min(100,Math.ceil((max+3)/10)*10));
+ const x=n=>left+(n-start)/Math.max(1,end-start)*pw,y=n=>top+ph-n/ymax*ph;
+ for(let i=0;i<=5;i++){const v=ymax*i/5,yy=y(v);line(svg,left,yy,width-right,yy,'#e7edf3');svg.append(el('text',{x:left-9,y:yy+4,'text-anchor':'end',fill:'#728295','font-size':12},v.toFixed(options.loss?(ymax<0.1?4:2):0)))}
+ const ticks=[...new Set(Array.from({length:7},(_,i)=>Math.round(start+(end-start)*i/6)))];
+ for(const tick of ticks){const xx=x(tick);line(svg,xx,top,xx,height-bottom,'#f1f4f8');svg.append(el('text',{x:xx,y:height-11,'text-anchor':'middle',fill:'#728295','font-size':12},tick))}
+ for(const s of series){const pts=rows.filter(r=>r[s.key]!=null);if(!pts.length)continue;const d=pts.map((r,i)=>(i&&(!s.maxGap||r.epoch-pts[i-1].epoch<=s.maxGap)?'L':'M')+x(r.epoch).toFixed(2)+','+y(r[s.key]*factor).toFixed(2)).join(' ');svg.append(el('path',{d,fill:'none',stroke:s.color,'stroke-width':2.6,'stroke-linecap':'round','stroke-linejoin':'round'}));if(pts.length<=150)for(const r of pts)svg.append(el('circle',{cx:x(r.epoch),cy:y(r[s.key]*factor),r:2.6,fill:s.color}));}
+ const cursor=el('line',{x1:0,y1:top,x2:0,y2:height-bottom,stroke:'#8c9aaa','stroke-width':1,'stroke-dasharray':'4 4',visibility:'hidden'});svg.append(cursor);
+ const hit=el('rect',{x:left,y:top,width:pw,height:ph,fill:'transparent'});svg.append(hit);
+ hit.addEventListener('pointermove',ev=>{const rect=svg.getBoundingClientRect(),local=(ev.clientX-rect.left)/rect.width*width,epoch=start+(local-left)/pw*Math.max(1,end-start);const candidates=rows.filter(r=>series.some(s=>r[s.key]!=null));if(!candidates.length)return;const row=candidates.reduce((a,b)=>Math.abs(a.epoch-epoch)<=Math.abs(b.epoch-epoch)?a:b);cursor.setAttribute('x1',x(row.epoch));cursor.setAttribute('x2',x(row.epoch));cursor.setAttribute('visibility','visible');tip.replaceChildren();const title=document.createElement('strong');title.textContent='第 '+row.epoch+' 轮';tip.append(title);for(const s of series){const div=document.createElement('div');div.textContent=s.label+'：'+(row[s.key]==null?'本轮未记录':format(row[s.key]));tip.append(div)}tip.style.display='block';tip.style.left=Math.max(0,Math.min(box.clientWidth-tip.offsetWidth,ev.clientX-rect.left+14))+'px';tip.style.top='15px';});
+ hit.addEventListener('pointerleave',()=>{tip.style.display='none';cursor.setAttribute('visibility','hidden')});
+}
+function draw(){if(!data)return;const series=[];if($('showTrain').checked)series.push({key:'train_accuracy',label:'训练',color:'#2369d8'});if($('showTest').checked)series.push({key:'test_accuracy',label:'测试',color:'#d95d23'});chart('mainSvg','mainChart',series,1100,340);chart('groupSvg','groupChart',[{key:'test_canonical_accuracy',label:'Canonical',color:'#8651bd'},{key:'test_noncanonical_accuracy',label:'Noncanonical',color:'#d64f67'}],700,285);chart('lossSvg','lossChart',[{key:'train_loss',label:'训练 Loss',color:'#188579',toggle:'showTrainLoss'},{key:'test_loss',label:'测试总体 Loss',color:'#d95d23',toggle:'showTestLoss',maxGap:5},{key:'test_canonical_loss',label:'Canonical Loss',color:'#8651bd',toggle:'showCanLoss',maxGap:5},{key:'test_noncanonical_loss',label:'Noncanonical Loss',color:'#d64f67',toggle:'showNoncanLoss',maxGap:5}].filter(s=>$(s.toggle).checked),1100,300,{loss:true,rangeId:'lossRange'})}
+function render(){
+ const latest=data.latest_train,test=data.latest_test,best=data.best_test,cfg=data.config,progress=data.progress,total=cfg.epochs||data.status.epochs;
+ const active=progress&&progress.epoch>latest.epoch?progress:null;
+ const lossRows=data.history.filter(r=>r.train_loss!=null),lastLoss=lossRows[lossRows.length-1];
+ const testLoss=data.latest_test_loss;
+ $('lossLatest').textContent=(lastLoss?'训练：第 '+lastLoss.epoch+' 轮 / '+Number(lastLoss.train_loss).toFixed(4):'训练：暂无记录')+' · '+(testLoss?'测试：第 '+testLoss.epoch+' 轮 / '+Number(testLoss.test_loss).toFixed(4):'测试：正在补算');
+ const lossCount=data.history.filter(r=>r.test_loss!=null).length,lossState=data.test_loss_status?.state;
+ const lossLag=testLoss?latest.epoch-testLoss.epoch:0;
+ $('lossEvalStatus').textContent='已记录 '+lossCount+' 个 checkpoint 的完整测试 loss。'+(testLoss?'最新测试 loss 为第 '+testLoss.epoch+' 轮。':'')+(lossLag>5?'测试 loss 落后训练 '+lossLag+' 轮。':'')+(lossState==='evaluating'?'正在补算，完成后自动显示。':lossState==='error'?'补算失败，稍后自动重试。':'新 checkpoint 保存后自动更新。')+'曲线只连接间隔不超过 5 轮的实测点，缺失区间保留空白。';
+ $('epoch').textContent=(active?active.epoch:latest.epoch)+' / '+total;
+ $('step').textContent=active?'第 '+active.step+' / '+active.steps_per_epoch+' 步':'已完成 '+latest.epoch+' 轮';
+ $('progressBar').style.width=Math.min(100,(latest.epoch+(active?active.step/active.steps_per_epoch:0))/total*100)+'%';
+ $('train').textContent=pct(latest.train_accuracy);$('trainEpoch').textContent='第 '+latest.epoch+' 轮 · 固定 '+(latest.train_n||cfg.train_accuracy_sample_size).toLocaleString()+' 个样本';
+ $('test').textContent=pct(test?.test_accuracy);$('testEpoch').textContent=test?'第 '+test.epoch+' 轮 · '+test.test_n.toLocaleString()+' 个测试样本':'等待测试评估';
+ $('best').textContent=pct(best?.test_accuracy);$('bestEpoch').textContent=best?'第 '+best.epoch+' 轮 · 最新较最佳 '+((test.test_accuracy-best.test_accuracy)*100).toFixed(2)+' 个百分点':'等待测试评估';
+ $('config').textContent='dm '+cfg.model.width+' · dff '+cfg.model.ffn_width+' · Seed '+cfg.seed+' · '+cfg.gpus+' GPUs · LR '+cfg.learning_rate+' · Weight decay '+cfg.weight_decay+' · Batch '+cfg.global_batch;
+ const complete=data.status.state==='complete',initializing=data.status.state==='initializing'&&!active,stale=!initializing&&(data.activity_age_seconds==null||data.activity_age_seconds>180);
+ $('connection').className='badge'+(stale&&!complete?' warn':'');$('connection').textContent=complete?'训练已完成':initializing?'首次编译中':stale?'训练进度待确认':'训练进行中';
+ $('banner').style.display=stale&&!complete?'block':'none';$('banner').textContent='最近训练进度超过 3 分钟未更新，请检查训练进程。页面仍在自动读取数据。';
+ $('updated').textContent='读取于 '+clock(data.fetched_at)+' · 30 秒刷新';
+ const seconds=data.status.seconds_per_epoch,parts=['Loss '+Number(latest.train_loss||0).toFixed(4)];if(seconds)parts.push('约 '+(seconds/60).toFixed(1)+' 分钟 / 轮');if(data.last_activity)parts.push('训练进度更新于 '+clock(data.last_activity));$('details').textContent=parts.join(' · ');
+ $('testRows').replaceChildren();for(const row of data.history.filter(r=>r.test_accuracy!=null).slice(-8).reverse()){const tr=document.createElement('tr');for(const value of [row.epoch,pct(row.train_accuracy),pct(row.test_accuracy),pct(row.test_canonical_accuracy),pct(row.test_noncanonical_accuracy)]){const td=document.createElement('td');td.textContent=value;tr.append(td)}$('testRows').append(tr)}draw();
+}
+
+let lastAttention=null,attentionLoading=false;
+function renderAttention(a){
+ lastAttention=a;const item=a.latest,group=$('attentionView').value;
+ $('attentionLayer').disabled=false;
+ if(!item||item.view_version!==2){$('attentionEpoch').textContent='单序列热图生成中';$('attentionEpoch').className='badge warn';$('attentionMeta').textContent='正在从最新 checkpoint 生成固定单条序列热图…';return}
+ const building=a.state==='building'||a.state==='queued',failed=a.state==='error',example=item.examples[group];
+ $('attentionEpoch').textContent='第 '+item.epoch+' 轮';$('attentionEpoch').className='badge'+(building||failed?' warn':'');
+ $('attentionMeta').textContent=(building?'更新中 · ':failed?'显示上次结果 · ':'已更新 · ')+(group==='can'?'Canonical':'Noncanonical')+' 序列 #'+example.id+' · 正确答案 '+example.answer+' · 模型预测 '+example.prediction+(example.answer===example.prediction?'（正确）':'（错误）')+' · '+clock(item.generated_at);
+ const layer=$('attentionLayer').value,key=group+'_'+(layer==='all'?'all':'layer'+layer),url=item.images[key]+'?style='+(item.color_scale_version||0),img=$('attentionImage');
+ if(img.dataset.source!==url){img.dataset.source=url;img.src=url;img.alt='第 '+item.epoch+' 轮，单条 '+group+' 序列 #'+example.id+' 的注意力热图';}
+ $('attentionImageLink').href=url;$('attentionOpen').href=url;$('attentionOpen').hidden=false;
+ $('attentionTokens').textContent='位置:token  '+example.tokens.map((t,i)=>(i+1)+':'+t).join(' · ');
+ $('attentionCaption').textContent='每张热图只展示当前这一条固定序列，不做样本平均。'+(item.color_scale_version===3?'浅蓝到深蓝连续渐变，权重越高颜色越深；采用平方根色标，保留低权重差异，15% 仅为参考刻度，不做分档。灰色表示因果 mask。所有层与 checkpoint 共用固定尺度，色条标注真实百分比。':'连续色标生成后自动切换。');
+}
+async function refreshAttention(){
+ if(attentionLoading)return;attentionLoading=true;
+ try{const r=await fetch('/api/attention',{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw new Error('HTTP '+r.status);renderAttention(await r.json())}
+ catch(error){$('attentionMeta').textContent='热图状态暂时无法读取，稍后自动重试。';}
+ finally{attentionLoading=false}
+}
+$('attentionImage').addEventListener('load',()=>{$('attentionImage').hidden=false;$('attentionPlaceholder').hidden=true;});
+$('attentionImage').addEventListener('error',()=>{$('attentionImage').hidden=true;$('attentionPlaceholder').hidden=false;$('attentionPlaceholder').textContent='热图加载失败，稍后自动重试。';$('attentionImage').dataset.source='';});
+for(const id of ['attentionView','attentionLayer'])$(id).addEventListener('change',()=>{if(lastAttention)renderAttention(lastAttention)});
+
+async function refresh(){if(loading)return;loading=true;$('refresh').disabled=true;try{const response=await fetch('/api/metrics',{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!response.ok)throw new Error('HTTP '+response.status);data=await response.json();render();refreshAttention()}catch(error){$('connection').className='badge error';$('connection').textContent='连接中断';$('banner').textContent='无法读取最新数据；保留最后一次曲线，30 秒后自动重试。若刚重启电脑，请重新启动本地连接。';$('banner').style.display='block'}finally{loading=false;$('refresh').disabled=false}}
+for(const id of ['range','scale','showTrain','showTest','lossRange','showTrainLoss','showTestLoss','showCanLoss','showNoncanLoss'])$(id).addEventListener('change',draw);$('refresh').addEventListener('click',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});refresh();setInterval(refresh,30000);
+</script></body></html>

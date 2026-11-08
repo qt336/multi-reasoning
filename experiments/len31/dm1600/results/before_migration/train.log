@@ -1,0 +1,82 @@
+TRAIN steps=4 GPUs=2 parameters=61,846,501 examples=6,500,000 steps_per_epoch=1,625 resume_epoch=0
+PRECISION {"precision": "fp32", "autocast_enabled": false, "parameter_dtypes": ["torch.float32"], "matmul_tf32": false, "cudnn_tf32": false, "float32_matmul_precision": "highest", "compiled_force_same_precision": true}
+EVAL {"epoch": 0, "train_loss": "", "learning_rate": 0, "elapsed_hours": 0.001876878539721171, "train_correct": 100, "train_n": 10000, "train_accuracy": 0.01, "test_correct": 176, "test_n": 20000, "test_accuracy": 0.0088, "test_canonical_correct": 88, "test_canonical_n": 10000, "test_canonical_accuracy": 0.0088, "test_noncanonical_correct": 88, "test_noncanonical_n": 10000, "test_noncanonical_accuracy": 0.0088}
+PROGRESS {"epoch": 1, "step": 100, "steps_per_epoch": 1625, "examples_per_second": 3671.8297063821083, "estimated_train_seconds_per_epoch": 1770.2346023025445, "loss": 4.610894203186035, "gradient_norm": 1.5131760835647583, "updated_at": "2026-10-31T14:41:08+08:00"}
+PROGRESS {"epoch": 1, "step": 200, "steps_per_epoch": 1625, "examples_per_second": 3645.450832594245, "estimated_train_seconds_per_epoch": 1783.044210028296, "loss": 4.595337390899658, "gradient_norm": 1.4408761262893677, "updated_at": "2026-10-31T14:42:59+08:00"}
+[rank0]:[E1031 14:43:20.669641943 ProcessGroupNCCL.cpp:1595] [PG ID 0 PG GUID 0(default_pg) Rank 0] Process group watchdog thread terminated with exception: CUDA error: unspecified launch failure
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Exception raised from c10_cuda_check_implementation at ../c10/cuda/CUDAException.cpp:43 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7651ca96c446 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::string const&) + 0x64 (0x7651ca9166e4 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #2: c10::cuda::c10_cuda_check_implementation(int, char const*, char const*, int, bool) + 0x118 (0x7651cb0c5a18 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libc10_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::WorkNCCL::finishedGPUExecutionInternal() const + 0x56 (0x76517f9fba46 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: c10d::ProcessGroupNCCL::WorkNCCL::isCompleted() + 0xa0 (0x76517fa00710 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #5: c10d::ProcessGroupNCCL::watchdogHandler() + 0x1da (0x76517fa07e7a in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #6: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x76517fa0993d in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #7: <unknown function> + 0x145c0 (0x7651cd23a5c0 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #8: <unknown function> + 0x94a83 (0x7651d1c94a83 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #9: <unknown function> + 0x1268e0 (0x7651d1d268e0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+terminate called after throwing an instance of 'c10::DistBackendError'
+  what():  [PG ID 0 PG GUID 0(default_pg) Rank 0] Process group watchdog thread terminated with exception: CUDA error: unspecified launch failure
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Exception raised from c10_cuda_check_implementation at ../c10/cuda/CUDAException.cpp:43 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7651ca96c446 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10::detail::torchCheckFail(char const*, char const*, unsigned int, std::string const&) + 0x64 (0x7651ca9166e4 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #2: c10::cuda::c10_cuda_check_implementation(int, char const*, char const*, int, bool) + 0x118 (0x7651cb0c5a18 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libc10_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::WorkNCCL::finishedGPUExecutionInternal() const + 0x56 (0x76517f9fba46 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: c10d::ProcessGroupNCCL::WorkNCCL::isCompleted() + 0xa0 (0x76517fa00710 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #5: c10d::ProcessGroupNCCL::watchdogHandler() + 0x1da (0x76517fa07e7a in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #6: c10d::ProcessGroupNCCL::ncclCommWatchdog() + 0x14d (0x76517fa0993d in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #7: <unknown function> + 0x145c0 (0x7651cd23a5c0 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #8: <unknown function> + 0x94a83 (0x7651d1c94a83 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #9: <unknown function> + 0x1268e0 (0x7651d1d268e0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Exception raised from ncclCommWatchdog at ../torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:1601 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x96 (0x7651ca96c446 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xe7eb1b (0x76517f67eb1b in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: <unknown function> + 0x145c0 (0x7651cd23a5c0 in /home/qintian/.local/lib/python3.10/site-packages/torch/lib/libtorch.so)
+frame #3: <unknown function> + 0x94a83 (0x7651d1c94a83 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #4: <unknown function> + 0x1268e0 (0x7651d1d268e0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+W1031 14:43:21.749000 2796352 torch/distributed/elastic/multiprocessing/api.py:897] Sending process 2796459 closing signal SIGTERM
+E1031 14:43:21.968000 2796352 torch/distributed/elastic/multiprocessing/api.py:869] failed (exitcode: -6) local_rank: 0 (pid: 2796458) of binary: /usr/bin/python3
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/qintian/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 923, in <module>
+    main()
+  File "/home/qintian/.local/lib/python3.10/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+  File "/home/qintian/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 919, in main
+    run(args)
+  File "/home/qintian/.local/lib/python3.10/site-packages/torch/distributed/run.py", line 910, in run
+    elastic_launch(
+  File "/home/qintian/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 138, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/qintian/.local/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 269, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+========================================================
+train.py FAILED
+--------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+--------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-10-31_14:43:21
+  host      : capios-SYS-4029GP-TRT2
+  rank      : 0 (local_rank: 0)
+  exitcode  : -6 (pid: 2796458)
+  error_file: <N/A>
+  traceback : Signal 6 (SIGABRT) received by PID 2796458
+========================================================

@@ -1,0 +1,8 @@
+epoch,filename,bytes,sha256,download_url
+0,dm1600-epoch-000000.pt,247398018,3d86a685dd72e67939c74a89532c44fbf1ffd70eb102e54da74c2f5014a73fb9,https://github.com/qt336/multi-reasoning/releases/download/len31-four-step-seed2031/dm1600-epoch-000000.pt
+30,dm1600-epoch-000030.pt,742193914,528b51df2b327f74c3ed2dacefbb2f131d64990f80876c9d96f49fe8176e4de6,https://github.com/qt336/multi-reasoning/releases/download/len31-four-step-seed2031/dm1600-epoch-000030.pt
+31,dm1600-epoch-000031.pt,742193914,409dd6570b116afe63f1489a7d33ce94b2f0830fd5d10ed46b2466ae4ae8de1d,https://github.com/qt336/multi-reasoning/releases/download/len31-four-step-seed2031/dm1600-epoch-000031.pt
+32,dm1600-epoch-000032.pt,742193914,9759d1b332b9840334f61c161cfc5ebb448b96cd1d4f3c3699b62083f8a2dc21,https://github.com/qt336/multi-reasoning/releases/download/len31-four-step-seed2031/dm1600-epoch-000032.pt
+33,dm1600-epoch-000033.pt,742193914,254e1039abf6334a54dd350d060c760c9a9478ced3cfabb9b5bca252e6521ed2,https://github.com/qt336/multi-reasoning/releases/download/len31-four-step-seed2031/dm1600-epoch-000033.pt
+35,dm1600-epoch-000035.pt,742193914,837905da183b95aa9c6a31f05c678fb3ac0db95f46c7dba42e2c897d19c7502c,https://github.com/qt336/multi-reasoning/releases/download/len31-four-step-seed2031/dm1600-epoch-000035.pt
+355,dm1600-epoch-000355.pt,742193914,01d50bf9ae820df35e7ec431cb215618b98bdd70f02b042da09a3f5025c440ac,https://github.com/qt336/multi-reasoning/releases/download/len31-four-step-seed2031/dm1600-epoch-000355.pt

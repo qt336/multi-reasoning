@@ -1,0 +1,48 @@
+{
+  "torch": "2.5.1+cu121",
+  "cuda": "12.1",
+  "backend": "nccl",
+  "all_checks_passed": true,
+  "devices": [
+    {
+      "rank": 0,
+      "name": "NVIDIA GeForce RTX 4080",
+      "free_total": [
+        16237527040,
+        16720199680
+      ],
+      "all_reduce": 10.0,
+      "ddp_gradient_verified": true
+    },
+    {
+      "rank": 1,
+      "name": "NVIDIA GeForce RTX 4080",
+      "free_total": [
+        16237527040,
+        16720199680
+      ],
+      "all_reduce": 10.0,
+      "ddp_gradient_verified": true
+    },
+    {
+      "rank": 2,
+      "name": "NVIDIA GeForce RTX 4080",
+      "free_total": [
+        16237527040,
+        16720199680
+      ],
+      "all_reduce": 10.0,
+      "ddp_gradient_verified": true
+    },
+    {
+      "rank": 3,
+      "name": "NVIDIA GeForce RTX 4080",
+      "free_total": [
+        16237527040,
+        16720199680
+      ],
+      "all_reduce": 10.0,
+      "ddp_gradient_verified": true
+    }
+  ]
+}

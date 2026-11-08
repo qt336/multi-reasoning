@@ -1,0 +1,70 @@
+{
+  "data": {
+    "format_version": 3,
+    "steps": 4,
+    "n_facts": 15,
+    "token_min": 20,
+    "token_max": 100,
+    "vocab_size": 101,
+    "train_size": 6500000,
+    "eval_per_group": 10000,
+    "seed": 2027,
+    "sequence_length": 31,
+    "chunk_size": 50000,
+    "structure": "one_continuous_15_fact_chain_query_four_steps",
+    "train_mod5": [
+      0,
+      1,
+      4
+    ],
+    "test_mod5": [
+      2,
+      3
+    ]
+  },
+  "model": {
+    "width": 1300,
+    "ffn_width": 2600,
+    "layers": 3,
+    "vocab": 101,
+    "length": 31,
+    "initialization": "kaiming_uniform_relu_gamma1",
+    "normalization": "prenorm"
+  },
+  "gpus": 4,
+  "global_batch": 4000,
+  "learning_rate": 0.0001,
+  "warmup_epochs": 20,
+  "epochs": 2000,
+  "eval_every": 5,
+  "eval_batch": 250,
+  "seed": 2031,
+  "train_accuracy_sample_size": 10000,
+  "train_accuracy_sample_seed": 2027,
+  "train_accuracy_every": 1,
+  "optimizer": "AdamW",
+  "betas": [
+    0.9,
+    0.999
+  ],
+  "eps": 1e-08,
+  "weight_decay": 0.15,
+  "device": "cuda",
+  "precision": "fp32",
+  "mixed_precision": null,
+  "tf32": false,
+  "float32_matmul_precision": "highest",
+  "snapshot_epochs": [
+    30,
+    31,
+    32,
+    33,
+    35
+  ],
+  "data_residency": "gpu",
+  "data_loading": "fixed uint8 shard; full random permutation per epoch",
+  "ddp_gradient_as_bucket_view": true,
+  "ddp_static_graph": true,
+  "compile_model": true,
+  "compile_mode": "max-autotune-no-cudagraphs"
+}

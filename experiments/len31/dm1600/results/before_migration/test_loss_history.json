@@ -1,0 +1,56 @@
+{
+  "run_name": "chain_4step_3layer_dm1600_dff3200_len31_6p5m_2x4080_batch4000_compile1_seed2031_eval10000_wd0p15_lr1e-4_fp32_20261031",
+  "rows": [
+    {
+      "epoch": 0,
+      "test_loss": 4.6158106323242185,
+      "test_canonical_loss": 4.615810631799698,
+      "test_noncanonical_loss": 4.615810632848739,
+      "test_loss_n": 20000,
+      "groups": {
+        "test_canonical": {
+          "loss": 4.615810631799698,
+          "loss_sum": 46158.10631799698,
+          "correct": 88,
+          "n": 10000,
+          "accuracy": 0.0088
+        },
+        "test_noncanonical": {
+          "loss": 4.615810632848739,
+          "loss_sum": 46158.106328487396,
+          "correct": 88,
+          "n": 10000,
+          "accuracy": 0.0088
+        }
+      },
+      "device": "cpu",
+      "precision": "fp32_tf32_off",
+      "evaluated_at": "2026-10-31T06:48:05.320735+00:00",
+      "elapsed_seconds": 527.28,
+      "accuracy_check": {
+        "test_canonical": {
+          "logged_correct": 88,
+          "recomputed_correct": 88,
+          "difference": 0
+        },
+        "test_noncanonical": {
+          "logged_correct": 88,
+          "recomputed_correct": 88,
+          "difference": 0
+        }
+      },
+      "checkpoint_sha256": "3d86a685dd72e67939c74a89532c44fbf1ffd70eb102e54da74c2f5014a73fb9",
+      "fingerprint": [
+        66306,
+        57418836,
+        247398018,
+        1793428754333901463
+      ]
+    }
+  ],
+  "state": "ready",
+  "updated_at": "2026-10-31T13:00:27.401726+00:00",
+  "current_checkpoint": null,
+  "current_device": "cpu",
+  "error": null
+}
