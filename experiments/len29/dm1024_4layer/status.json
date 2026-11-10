@@ -1,0 +1,15 @@
+{
+  "state": "training",
+  "epochs": 500,
+  "epoch": 266,
+  "train_loss": 0.00288958935546875,
+  "learning_rate": 4.803709096128356e-05,
+  "elapsed_hours": 41.112891581985686,
+  "train_correct": 9996,
+  "train_n": 10000,
+  "train_accuracy": 0.9996,
+  "updated_at": "2026-11-10T15:24:48+08:00",
+  "seconds_per_epoch": 545.12047123909,
+  "examples_per_second": 14675.655030565533,
+  "accuracy_scope": "fixed training sample; paired canonical/noncanonical held-out test"
+}

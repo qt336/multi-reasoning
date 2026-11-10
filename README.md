@@ -124,3 +124,7 @@ bash validate.sh
 ## 长度 31 的四步推理实验
 
 [dm=1300 和 dm=1600 的训练代码、结果和 checkpoint](experiments/len31/)
+
+## 长度 29 的四层四步推理实验
+
+[第 4 组的超参数、逐轮准确率和注意力热图](experiments/len29/dm1024_4layer/)
