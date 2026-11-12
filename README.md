@@ -125,6 +125,8 @@ bash validate.sh
 
 [dm=1300 和 dm=1600 的训练代码、结果和 checkpoint](experiments/len31/)
 
+2026-11-12：[650 万条 dm1300 的最终停止记录](experiments/len31/dm1300/)已更新至 epoch 1928，提供 epoch 1925 checkpoint 和完整准确率曲线。
+
 ## 长度 29 的四层四步推理实验
 
 [第 4 组的超参数、逐轮准确率和注意力热图](experiments/len29/dm1024_4layer/)
