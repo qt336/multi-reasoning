@@ -1,0 +1,17 @@
+{
+  "state": "stopped",
+  "last_completed_epoch": 1485,
+  "checkpoint_epoch": 1485,
+  "interrupted_epoch": 1486,
+  "last_recorded_step_in_interrupted_epoch": 1000,
+  "train_accuracy": 0.9986,
+  "test_canonical_accuracy": 0.9236,
+  "test_noncanonical_accuracy": 0.352,
+  "test_accuracy_natural_weighted": 0.5425333333333333,
+  "paired_test_accuracy": 0.6378,
+  "train_loss": 0.006510867788461538,
+  "checkpoint_sha256": "26f1ebf06f55d4e69940abaf4173a22ea472317b92dd2be12cfad49638489cc7",
+  "checkpoint_bytes": 742193978,
+  "completed_evaluations": 298,
+  "updated_at": "2026-11-26T17:22:10.298001+08:00"
+}

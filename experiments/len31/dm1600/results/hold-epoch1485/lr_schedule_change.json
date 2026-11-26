@@ -1,0 +1,11 @@
+{
+  "changed_at": "2026-11-15T23:52:07.253427+00:00",
+  "policy": "original_cosine_then_constant",
+  "decay_until_epoch_inclusive": 1000,
+  "constant_from_epoch": 1001,
+  "constant_learning_rate": 5.079334700599354e-05,
+  "final_epoch": 2000,
+  "resume_epoch": 750,
+  "replayed_completed_epoch": 751,
+  "source_sha256": "4a5f37d2e978775133be4bd309d40f5d5faf580233ff2130bf2e04dec3279130"
+}

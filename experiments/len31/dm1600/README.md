@@ -1,5 +1,9 @@
 # dm=1600，dff=3200
 
+2026-11-26，固定学习率分支已停止，最后完整 checkpoint 为第 1485 轮。训练准确率 99.86%，canonical 92.36%，noncanonical 35.20%，按 1:2 加权的整体测试准确率 54.25%。[完整结果、曲线与注意力热图](results/hold-epoch1485/) · [下载 checkpoint](https://github.com/qt336/multi-reasoning/releases/download/dm1600-len31-hold-epoch1485/dm1600-epoch-001485.pt)
+
+## 初始训练阶段
+
 3 层单头 Transformer，序列长度 31。原计划训练 2000 轮，准确率记录至第 360 轮，最后一份完整 checkpoint 为第 355 轮。
 
 | 评估口径 | 轮次 | 固定训练样本 | 总测试集 | Canonical | Noncanonical |
